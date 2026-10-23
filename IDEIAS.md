@@ -72,3 +72,22 @@ Modelo: versão grátis como isca → completa R$27–47 → bundle R$97 → atu
 - Flux.1 **dev** = licença NÃO comercial (não pode vender). Flux.1 **schnell** = Apache 2.0.
 - SDXL roda local em 8 GB; Flux em 8 GB só via GGUF quantizado (lento).
 - Etsy/KDP exigem declarar uso de IA.
+
+## C. Stable Diffusion — linhas de produto
+Foco: o que SD faz bem e o que dá para empacotar em série.
+1. **Line art / colorir** — SDXL + LoRA de lineart; saída tratada por código (threshold, espessura). PDF.
+2. **Série infantil com personagem fixo** — LoRA do personagem + ControlNet de pose. Consistência é o diferencial.
+3. **Padrões seamless / digital paper** — tiles sem emenda; pack para scrapbook e designers.
+4. **Stickers / clipart com fundo transparente** — recorte automático (rembg/birefnet); pack temático.
+5. **Assets 2D para jogos** — sprites, tilesets, UI; montagem de sprite sheet por código.
+6. **Mockups para outros vendedores** — cena gerada + produto aplicado por código em perspectiva.
+7. **Cenário/fundo para planners e stickers** — decoração de PDF com estrutura hipermídia feita em código.
+8. **Retrato pet/pessoa personalizado (digital)** — IP-Adapter/InstantID; entrega PNG/PDF, venda sob encomenda.
+9. **Fotografia de produto para e-commerce (serviço)** — troca de fundo e relight por inpainting.
+10. **Texturas PBR** — material + normal map gerado por código.
+
+Stack necessária: ComfyUI (portable), ControlNet aux, IP-Adapter, rembg/birefnet,
+Real-ESRGAN, kohya_ss (LoRA), potrace/vtracer (vetorização).
+
+Limites: texto em imagem (acentos quebram), mãos, detalhe técnico preciso,
+consistência sem LoRA. Regra: registrar seed + prompt + modelo em JSONL por asset.
