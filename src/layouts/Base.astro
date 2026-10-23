@@ -1,4 +1,6 @@
 ---
+import { home, url } from '../lib/urls';
+
 interface Props {
   title: string;
   description: string;
@@ -6,8 +8,6 @@ interface Props {
 }
 
 const { title, description, noindex = false } = Astro.props;
-const base = import.meta.env.BASE_URL;
-const home = base.endsWith('/') ? base : `${base}/`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost:4321').toString();
 import '../styles/global.css';
 ---
@@ -26,14 +26,14 @@ import '../styles/global.css';
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta name="theme-color" content="#0f766e" />
-    <link rel="icon" href={`${home}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
   </head>
   <body>
     <header class="topo">
       <a class="marca" href={home}>calculadoras<span>.br</span></a>
       <nav aria-label="Principal">
-        <a href={`${home}clt-pj/`}>CLT x PJ</a>
-        <a href={`${home}sobre/`}>Sobre</a>
+        <a href={url('clt-pj/')}>CLT x PJ</a>
+        <a href={url('sobre/')}>Sobre</a>
       </nav>
     </header>
 
@@ -47,8 +47,8 @@ import '../styles/global.css';
         Parâmetros vigentes em 2026.
       </p>
       <p>
-        <a href={`${home}privacidade/`}>Privacidade</a> ·
-        <a href={`${home}sobre/`}>Sobre</a>
+        <a href={url('privacidade/')}>Privacidade</a> ·
+        <a href={url('sobre/')}>Sobre</a>
       </p>
     </footer>
   </body>
