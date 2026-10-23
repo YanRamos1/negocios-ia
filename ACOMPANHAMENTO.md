@@ -11,7 +11,7 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | # | Projeto | Pasta | Status | Prioridade | Monetização | Próximo passo |
 |---|---|---|---|---|---|---|
 | 1 | CLT x PJ | `ferramentas/clt-pj` | publicado | P0 | afiliado contabilidade + planilha PF/PJ | ligar programa de afiliado |
-| 2 | Financeiro PF/PJ (planilha) | `produtos/planilhas/financeiro-mei` | em andamento | P0 | venda R$27–47 | landing + checkout Kiwify |
+| 2 | Financeiro PF/PJ (planilha) | `produtos/planilhas/financeiro-mei` | em andamento | P0 | venda R$27–47 | versão gratuita no ar; falta checkout |
 | 3 | Custo de importação | `ferramentas/custo-importacao` | publicado | P1 | afiliado redirecionador | páginas por produto/faixa |
 | 4 | Taxa de marketplace | `ferramentas/taxa-marketplace` | publicado | P1 | afiliado ERP/frete | presets por canal com fonte oficial |
 | 5 | Precificação MEI/artesão | `ferramentas/precificacao-mei` | publicado | P1 | funil p/ planilha | páginas por nicho (confeitaria, artesanato) |
@@ -43,7 +43,8 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 2026-10-23 | custo-importacao | 6 simulações por valor (US$ 30 a 1.000) no sitemap | 07538fa |
 | 2026-10-23 | rescisao | calculadora com 4 tipos de desligamento e 11 testes | 8559bcf |
 | 2026-10-23 | precificacao-mei | preço com custo, taxa e margem + ponto de equilíbrio, 8 testes | dc4f9c9 |
-| 2026-10-23 | taxa-marketplace | comparação de 3 canais com preço mínimo, 7 testes | este commit |
+| 2026-10-23 | taxa-marketplace | comparação de 3 canais com preço mínimo, 7 testes | f3611e3 |
+| 2026-10-23 | planilha | landing com download da versão gratuita gerada no CI | este commit |
 
 ## Decisões
 

@@ -1,0 +1,127 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/urls';
+import { planilhaFinanceiro } from '../config/produto';
+import { comparar, formatBRL, formatPercent } from '../../ferramentas/clt-pj/src/index';
+
+const cenario = comparar(
+  { salarioBrutoCents: 500000 },
+  {
+    faturamentoMensalCents: 650000,
+    prolaborePercentualFaturamento: 0.28,
+    despesasMensaisCents: 30000,
+  },
+);
+
+const abas = [
+  ['Leia-me', 'Instruções, premissas e aviso legal.'],
+  ['Config', 'Salário, faturamento, pró-labore, despesas, dependentes e anexo.'],
+  ['Lançamentos', '200 linhas com listas de tipo, categoria, conta (PF/PJ) e mês.'],
+  ['Resumo', 'Entradas, saídas, reserva de imposto e saldo mês a mês.'],
+  ['Tabelas', 'INSS, IRRF, Simples III e V de 2026, com fonte.'],
+  ['Comparativo', 'CLT x PJ com fórmulas, veredito e custo do empregador.'],
+];
+
+const faq = [
+  {
+    pergunta: 'A versão gratuita tem prazo?',
+    resposta:
+      'Não. Ela é sua para usar. Inclui Leia-me, Config, Lançamentos e Resumo. O Comparativo e as tabelas de cálculo ficam na versão completa.',
+  },
+  {
+    pergunta: 'Funciona no Excel e no Google Sheets?',
+    resposta:
+      'Sim. O arquivo é .xlsx com fórmulas nativas (SUMIFS, VLOOKUP, IF). O Google Sheets abre e recalcula sem conversão.',
+  },
+  {
+    pergunta: 'As alíquotas estão atualizadas?',
+    resposta:
+      'Sim, com os parâmetros de 2026, incluindo o redutor da Lei 15.270/2025 no IRRF. As tabelas ficam em uma aba visível, com a fonte indicada.',
+  },
+  {
+    pergunta: 'Preciso saber Excel?',
+    resposta:
+      'Não. Você preenche os campos em verde-claro na aba Config e lança as movimentações. O resto é calculado.',
+  },
+];
+---
+
+<Base
+  title="Planilha Financeiro PF x PJ 2026: controle e comparativo"
+  description="Planilha de controle financeiro para quem recebe como PF e PJ: lançamentos, resumo mensal, reserva de imposto e comparativo CLT x PJ com as regras de 2026."
+>
+  <h1>Financeiro PF x PJ</h1>
+  <p class="lead">
+    Controle o dinheiro que entra como pessoa física e como empresa, separe a reserva de
+    imposto e veja, na mesma planilha, quanto sobra em cada regime.
+  </p>
+
+  <div class="card">
+    <h2 style="margin-top:0">Baixe a versão gratuita</h2>
+    <p>
+      Inclui a estrutura de lançamentos, o resumo mensal automático e a reserva de imposto.
+      Sem cadastro.
+    </p>
+    <p>
+      <a class="botao" href={url(planilhaFinanceiro.arquivoGratis)} download>
+        Baixar planilha (.xlsx)
+      </a>
+    </p>
+    {
+      planilhaFinanceiro.checkoutUrl ? (
+        <p>
+          <a class="botao botao-secundario" href={planilhaFinanceiro.checkoutUrl} rel="noopener">
+            Comprar versão completa — {formatBRL(planilhaFinanceiro.precoCents)}
+          </a>
+        </p>
+      ) : (
+        <p class="aviso-legal">
+          A versão completa (com o comparativo CLT x PJ e as tabelas de cálculo) está em
+          preparo. A gratuita já resolve o controle do mês.
+        </p>
+      )
+    }
+  </div>
+
+  <h2>O que tem dentro</h2>
+  <ul class="lista-ferramentas">
+    {abas.map(([nome, descricao]) => (
+      <li>
+        <strong>{nome}</strong>
+        <p>{descricao}</p>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Exemplo do comparativo (versão completa)</h2>
+  <p>
+    Cenário com R$ 5.000 de salário CLT e R$ 6.500 de faturamento PJ, pró-labore de 28% e
+    R$ 300 de despesas.
+  </p>
+  <table class="tabela">
+    <thead>
+      <tr><th>Indicador</th><th>CLT</th><th>PJ</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Líquido mensal</td><td>{formatBRL(cenario.clt.liquidoMensalCents)}</td><td>{formatBRL(cenario.pj.liquidoMensalCents)}</td></tr>
+      <tr><td>Líquido anual</td><td>{formatBRL(cenario.clt.liquidoAnualCents)}</td><td>{formatBRL(cenario.pj.liquidoAnualCents)}</td></tr>
+      <tr><td>Impostos do mês</td><td>{formatBRL(cenario.clt.inssCents + cenario.clt.irrfCents)}</td><td>{formatBRL(cenario.pj.dasCents + cenario.pj.inssProlaboreCents + cenario.pj.irrfProlaboreCents)}</td></tr>
+      <tr><td>Anexo do Simples</td><td>—</td><td>{cenario.pj.anexo} ({formatPercent(cenario.pj.aliquotaEfetiva)})</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Perguntas frequentes</h2>
+  <section class="faq">
+    {faq.map((item) => (
+      <details>
+        <summary>{item.pergunta}</summary>
+        <p>{item.resposta}</p>
+      </details>
+    ))}
+  </section>
+
+  <p>
+    Quer calcular um cenário antes de baixar?
+    <a href={url('clt-pj/')}>Use a calculadora CLT x PJ</a>.
+  </p>
+</Base>

@@ -13,6 +13,7 @@ build/
 out/
 output/
 produtos/planilhas/*/saida/
+public/planilhas/*.xlsx
 tmp/
 
 # segredos
