@@ -1,0 +1,166 @@
+---
+import Base from '../layouts/Base.astro';
+import Oferta from '../components/Oferta.astro';
+import { url } from '../lib/urls';
+import params from '../../ferramentas/custo-importacao/src/params-2026.json';
+
+const ufs = Object.entries(params.icmsPorUf as Record<string, number>).sort(([a], [b]) =>
+  a.localeCompare(b),
+);
+
+const faq = [
+  {
+    pergunta: 'Compras até US$ 50 pagam imposto em 2026?',
+    resposta:
+      'Em site certificado no Remessa Conforme, o imposto de importação é zero até US$ 50 de valor aduaneiro. O ICMS estadual continua sendo cobrado, calculado por dentro.',
+  },
+  {
+    pergunta: 'O que entra no valor aduaneiro?',
+    resposta:
+      'Valor dos produtos mais frete e seguro, quando cobrados. É esse total que define a faixa de US$ 50 e serve de base para os tributos.',
+  },
+  {
+    pergunta: 'Por que o ICMS é calculado por dentro?',
+    resposta:
+      'Porque o próprio ICMS integra a sua base de cálculo: base = (valor aduaneiro + imposto de importação) ÷ (1 − alíquota). Depois aplica-se a alíquota sobre essa base.',
+  },
+  {
+    pergunta: 'O IOF está incluído?',
+    resposta:
+      'Aparece como campo separado, porque depende da forma de pagamento e da alíquota vigente no seu banco. Confira o percentual antes de usar o total.',
+  },
+  {
+    pergunta: 'E acima de US$ 3.000?',
+    resposta:
+      'A compra sai do regime simplificado de remessas e passa por despacho aduaneiro comum. Esta calculadora avisa, mas não cobre esse caso.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.pergunta,
+    acceptedAnswer: { '@type': 'Answer', text: item.resposta },
+  })),
+};
+---
+
+<Base
+  title="Custo de importação 2026: imposto, ICMS e total da compra"
+  description="Calcule o custo final de uma compra internacional com as regras de 12/05/2026: imposto de importação, ICMS por estado e IOF."
+>
+  <h1>Custo real de uma compra internacional</h1>
+  <p class="lead">
+    Regras em vigor desde 12/05/2026. Informe o valor em dólar e veja o imposto de
+    importação, o ICMS do seu estado e quanto sobra de troco.
+  </p>
+
+  <form id="form-importacao" class="card" novalidate>
+    <div class="campos">
+      <div class="campo">
+        <label for="produto">Produto (US$)</label>
+        <input id="produto" type="text" inputmode="decimal" value="66,00" />
+        <small>Valor do item, sem frete.</small>
+      </div>
+      <div class="campo">
+        <label for="frete">Frete (US$)</label>
+        <input id="frete" type="text" inputmode="decimal" value="0,00" />
+        <small>Entra no valor aduaneiro.</small>
+      </div>
+      <div class="campo">
+        <label for="seguro">Seguro (US$)</label>
+        <input id="seguro" type="text" inputmode="decimal" value="0,00" />
+      </div>
+      <div class="campo">
+        <label for="cotacao">Cotação do dólar (R$)</label>
+        <input id="cotacao" type="text" inputmode="decimal" value="5,00" />
+        <small>Use a cotação do seu cartão.</small>
+      </div>
+      <div class="campo">
+        <label for="uf">Estado de destino</label>
+        <select id="uf">
+          {ufs.map(([uf, aliquota]) => (
+            <option value={uf} selected={uf === 'SP'}>
+              {uf} — ICMS {(aliquota * 100).toFixed(0)}%
+            </option>
+          ))}
+        </select>
+      </div>
+      <div class="campo">
+        <label for="iof">IOF do cartão (%)</label>
+        <input id="iof" type="text" inputmode="decimal" value="3,5" />
+        <small>Confira a alíquota vigente no seu banco.</small>
+      </div>
+      <div class="campo">
+        <label for="taxas">Outras taxas (R$)</label>
+        <input id="taxas" type="text" inputmode="decimal" value="0,00" />
+        <small>Despacho, entrega ou manuseio.</small>
+      </div>
+      <div class="campo">
+        <label class="checkbox">
+          <input id="prc" type="checkbox" checked />
+          Site certificado no Remessa Conforme
+        </label>
+        <small>Sem certificação, o imposto de importação é 60% sem desconto.</small>
+      </div>
+    </div>
+
+    <div class="acoes">
+      <button class="botao" type="submit">Calcular</button>
+    </div>
+    <p class="aviso-legal">
+      Estimativa. Regras válidas para remessas registradas a partir de 12/05/2026.
+    </p>
+  </form>
+
+  <section id="resultado" class="resultado" hidden aria-live="polite"></section>
+
+  <noscript>
+    <p class="card">
+      Esta calculadora precisa de JavaScript para calcular. O restante do conteúdo continua
+      disponível para leitura.
+    </p>
+  </noscript>
+
+  <Oferta />
+
+  <section class="explicacao">
+    <h2>Como o imposto é calculado</h2>
+    <ul>
+      <li><strong>Valor aduaneiro:</strong> produto + frete + seguro, em dólar. É ele que define a faixa e a base.</li>
+      <li><strong>Remessa Conforme até US$ 50:</strong> imposto de importação zero.</li>
+      <li><strong>Remessa Conforme acima de US$ 50:</strong> 60% sobre o valor aduaneiro, menos desconto fixo de US$ 30.</li>
+      <li><strong>Site não certificado:</strong> 60% sobre o valor aduaneiro, sem desconto.</li>
+      <li><strong>ICMS:</strong> alíquota do estado de destino, calculada por dentro —
+        <code>(valor aduaneiro + II) ÷ (1 − alíquota)</code> — e incidindo também sobre o imposto federal.</li>
+      <li><strong>IOF:</strong> cobrado na transação internacional, fora do cálculo aduaneiro.</li>
+    </ul>
+    <p class="aviso-legal">
+      Fontes: Instrução da Receita Federal para remessas internacionais (regras desde 12/05/2026)
+      e Convênio ICMS 81/2023 para as alíquotas estaduais. Benefícios estaduais de diferimento
+      ou crédito presumido não estão modelados.
+    </p>
+  </section>
+
+  <section class="faq">
+    <h2>Perguntas frequentes</h2>
+    {faq.map((item) => (
+      <details>
+        <summary>{item.pergunta}</summary>
+        <p>{item.resposta}</p>
+      </details>
+    ))}
+  </section>
+
+  <p>
+    Quer comparar quanto sobra no bolso entre carteira assinada e PJ?
+    <a href={url('clt-pj/')}>Use a calculadora CLT x PJ</a>.
+  </p>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script>
+    import '../scripts/custo-importacao';
+  </script>
+</Base>

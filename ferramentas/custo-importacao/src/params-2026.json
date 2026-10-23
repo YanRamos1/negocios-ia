@@ -1,0 +1,46 @@
+{
+  "vigencia": "2026-05-12",
+  "fontes": {
+    "receita": "https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/manuais/remessas-postal-e-expressa/regras-futuras",
+    "icms": "https://comsefaz.org.br/novo/wp-content/uploads/2025/12/Aliquota-ICMS-import.-RTS-por-UF-17-e-20-CV81-23-v22-12-2025.pdf"
+  },
+  "limiteIsencaoUsdCents": 5000,
+  "limiteRegimeUsdCents": 300000,
+  "remessaConforme": {
+    "aliquotaAcimaDoLimite": 0.6,
+    "descontoAcimaDoLimiteUsdCents": 3000
+  },
+  "foraRemessaConforme": {
+    "aliquota": 0.6,
+    "descontoUsdCents": 0
+  },
+  "icmsPorUf": {
+    "AC": 0.2,
+    "AL": 0.2,
+    "AM": 0.17,
+    "AP": 0.18,
+    "BA": 0.2,
+    "CE": 0.2,
+    "DF": 0.17,
+    "ES": 0.17,
+    "GO": 0.17,
+    "MA": 0.17,
+    "MG": 0.17,
+    "MS": 0.17,
+    "MT": 0.17,
+    "PA": 0.19,
+    "PB": 0.2,
+    "PE": 0.17,
+    "PI": 0.2,
+    "PR": 0.17,
+    "RJ": 0.17,
+    "RN": 0.2,
+    "RO": 0.17,
+    "RR": 0.2,
+    "RS": 0.17,
+    "SC": 0.17,
+    "SE": 0.2,
+    "SP": 0.17,
+    "TO": 0.17
+  }
+}

@@ -12,7 +12,7 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 |---|---|---|---|---|---|---|
 | 1 | CLT x PJ | `ferramentas/clt-pj` | publicado | P0 | afiliado contabilidade + planilha PF/PJ | ligar programa de afiliado |
 | 2 | Financeiro PF/PJ (planilha) | `produtos/planilhas/financeiro-mei` | em andamento | P0 | venda R$27–47 | landing + checkout Kiwify |
-| 3 | Custo de importação | `ferramentas/custo-importacao` | planejado | P1 | afiliado redirecionador | mapear alíquotas e faixas |
+| 3 | Custo de importação | `ferramentas/custo-importacao` | publicado | P1 | afiliado redirecionador | páginas por produto/faixa |
 | 4 | Taxa de marketplace | `ferramentas/taxa-marketplace` | planejado | P1 | afiliado ERP/frete | tabela de comissões por categoria |
 | 5 | Precificação MEI/artesão | `ferramentas/precificacao-mei` | planejado | P1 | funil p/ planilha | definir modelo de custo |
 | 6 | Precificação confeitaria (planilha) | `produtos/planilhas/precificacao-confeitaria` | planejado | P1 | venda R$27–47 | ficha técnica por receita |
@@ -38,7 +38,8 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 2026-10-23 | clt-pj | deploy no GitHub Pages e smoke test no navegador | 7a157c3 |
 | 2026-10-23 | clt-pj | correção do link do índice (base sem barra) | 7d5b8f8 |
 | 2026-10-23 | clt-pj | F2: 5 páginas por faixa, sitemap e robots dinâmicos | 539aae4 |
-| 2026-10-23 | financeiro-pf-pj | F4: gerador da planilha + 7 testes com fórmulas avaliadas | este commit |
+| 2026-10-23 | financeiro-pf-pj | F4: gerador da planilha + 7 testes com fórmulas avaliadas | 6ac200a |
+| 2026-10-23 | custo-importacao | calculadora com regras de 12/05/2026, 14 testes e smoke test | este commit |
 
 ## Decisões
 
