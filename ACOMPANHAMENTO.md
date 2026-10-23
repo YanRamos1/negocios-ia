@@ -34,7 +34,8 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 2026-10-23 | workspace | criação da estrutura, docs e git | ee2315e |
 | 2026-10-23 | workspace | linhas de produto com Stable Diffusion no backlog | 4900333 |
 | 2026-10-23 | clt-pj | auditoria de saída e roadmap por fases | 6488473 |
-| 2026-10-23 | clt-pj | motor de cálculo, 27 testes verdes e site estático | este commit |
+| 2026-10-23 | clt-pj | motor de cálculo, 27 testes verdes e site estático | ec44a3a |
+| 2026-10-23 | clt-pj | deploy no GitHub Pages e smoke test no navegador | 7a157c3 |
 
 ## Decisões
 
@@ -52,4 +53,4 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 
 | Projeto | URL | Acessos/mês | Conversão | Receita/mês |
 |---|---|---|---|---|
-| — | — | — | — | — |
+| CLT x PJ | https://yanramos1.github.io/negocios-ia/clt-pj/ | 0 | — | — |
