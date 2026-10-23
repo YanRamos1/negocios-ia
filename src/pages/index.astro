@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Calculadoras de impostos e trabalho — 2026"
+  description="Calculadoras gratuitas de impostos, salário líquido e custo de contratação no Brasil, com parâmetros de 2026."
+>
+  <h1>Calculadoras trabalhistas e tributárias</h1>
+  <p class="lead">
+    Ferramentas gratuitas, com cálculo em código aberto e parâmetros de 2026.
+    Sem login, sem cadastro para ver o resultado.
+  </p>
+
+  <ul class="lista-ferramentas">
+    <li>
+      <a href={`${import.meta.env.BASE_URL}clt-pj/`}>CLT x PJ</a>
+      <p>Compara o líquido mensal e anual, com INSS, IRRF, Simples Nacional e fator R.</p>
+    </li>
+    <li>
+      <span class="em-breve">Custo de importação — em breve</span>
+      <p>Imposto de importação, ICMS e taxas para compras internacionais.</p>
+    </li>
+    <li>
+      <span class="em-breve">Rescisão trabalhista — em breve</span>
+      <p>Verbas rescisórias por tipo de desligamento.</p>
+    </li>
+    <li>
+      <span class="em-breve">Precificação para MEI — em breve</span>
+      <p>Preço de venda a partir de custo, horas e taxas de marketplace.</p>
+    </li>
+  </ul>
+
+  <h2>Por que confiar no cálculo</h2>
+  <p>
+    Cada alíquota fica em um arquivo de parâmetros versionado, com link para a fonte oficial.
+    O motor de cálculo tem testes automatizados que rodam a cada alteração — se a tabela mudar,
+    o teste quebra antes de o site publicar.
+  </p>
+</Base>

@@ -1,0 +1,61 @@
+{
+  "vigencia": "2026-01",
+  "fontes": {
+    "inss": "https://www.gov.br/inss/pt-br/direitos-e-deveres/inscricao-e-contribuicao/tabela-de-contribuicao-mensal",
+    "irrf": "https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas/2026",
+    "irrfRedutor": "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/lei/l15270.htm",
+    "simples": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm"
+  },
+  "salarioMinimoCents": 162100,
+  "inss": {
+    "tetoCents": 847555,
+    "contribuicaoMaximaCents": 98809,
+    "faixas": [
+      { "ateCents": 162100, "aliquota": 0.075, "deduzirCents": 0 },
+      { "ateCents": 290284, "aliquota": 0.09, "deduzirCents": 2432 },
+      { "ateCents": 435427, "aliquota": 0.12, "deduzirCents": 11140 },
+      { "ateCents": 847555, "aliquota": 0.14, "deduzirCents": 19849 }
+    ]
+  },
+  "irrf": {
+    "descontoSimplificadoCents": 60720,
+    "dependenteCents": 18959,
+    "faixas": [
+      { "ateCents": 242880, "aliquota": 0, "deduzirCents": 0 },
+      { "ateCents": 282665, "aliquota": 0.075, "deduzirCents": 18216 },
+      { "ateCents": 375105, "aliquota": 0.15, "deduzirCents": 39416 },
+      { "ateCents": 466468, "aliquota": 0.225, "deduzirCents": 67549 },
+      { "ateCents": 999999999, "aliquota": 0.275, "deduzirCents": 90873 }
+    ],
+    "redutor": {
+      "limiteIsentoCents": 500000,
+      "limiteFinalCents": 735000,
+      "baseCents": 97862,
+      "coeficiente": 0.133145
+    }
+  },
+  "simples": {
+    "fatorRLimite": 0.28,
+    "anexoIII": [
+      { "ateCents": 18000000, "aliquota": 0.06, "deduzirCents": 0 },
+      { "ateCents": 36000000, "aliquota": 0.112, "deduzirCents": 936000 },
+      { "ateCents": 72000000, "aliquota": 0.135, "deduzirCents": 1764000 },
+      { "ateCents": 180000000, "aliquota": 0.16, "deduzirCents": 3564000 },
+      { "ateCents": 360000000, "aliquota": 0.21, "deduzirCents": 12564000 },
+      { "ateCents": 480000000, "aliquota": 0.33, "deduzirCents": 64800000 }
+    ],
+    "anexoV": [
+      { "ateCents": 18000000, "aliquota": 0.155, "deduzirCents": 0 },
+      { "ateCents": 36000000, "aliquota": 0.18, "deduzirCents": 450000 },
+      { "ateCents": 72000000, "aliquota": 0.195, "deduzirCents": 990000 },
+      { "ateCents": 180000000, "aliquota": 0.205, "deduzirCents": 1710000 },
+      { "ateCents": 360000000, "aliquota": 0.23, "deduzirCents": 6210000 },
+      { "ateCents": 480000000, "aliquota": 0.305, "deduzirCents": 54000000 }
+    ]
+  },
+  "encargos": {
+    "fgts": 0.08,
+    "patronalPadrao": 0.268,
+    "inssProlabore": 0.11
+  }
+}

@@ -10,8 +10,8 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 
 | # | Projeto | Pasta | Status | Prioridade | Monetização | Próximo passo |
 |---|---|---|---|---|---|---|
-| 1 | CLT x PJ | `ferramentas/clt-pj` | spec | P0 | afiliado contabilidade + planilha PF/PJ | F0: montar infra e template |
-| 2 | Financeiro MEI (planilha) | `produtos/planilhas/financeiro-mei` | planejado | P0 | venda R$27–47 | definir abas e travas |
+| 1 | CLT x PJ | `ferramentas/clt-pj` | publicado | P0 | afiliado contabilidade + planilha PF/PJ | ligar programa de afiliado |
+| 2 | Financeiro MEI (planilha) | `produtos/planilhas/financeiro-mei` | planejado | P0 | venda R$27–47 | versão PF/PJ (F4) |
 | 3 | Custo de importação | `ferramentas/custo-importacao` | planejado | P1 | afiliado redirecionador | mapear alíquotas e faixas |
 | 4 | Taxa de marketplace | `ferramentas/taxa-marketplace` | planejado | P1 | afiliado ERP/frete | tabela de comissões por categoria |
 | 5 | Precificação MEI/artesão | `ferramentas/precificacao-mei` | planejado | P1 | funil p/ planilha | definir modelo de custo |
@@ -25,7 +25,7 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 13 | Payback energia solar | `ferramentas/solar-payback` | planejado | P3 | lead para integrador | modelo de tarifa e geração |
 | 14 | Templates Notion | `produtos/notion-templates` | planejado | P3 | venda R$19–39 | escolher 2 primeiros |
 | 15 | Livros ilustrados | `livros-ilustrados` | planejado | P3 | venda PDF R$19–37 | pipeline de layout 300 DPI |
-| 16 | Infra compartilhada | `_infra` | planejado | P0 | — | escolher stack e deploy |
+| 16 | Infra compartilhada | `_infra` | em andamento | P0 | — | sitemap e segunda ferramenta |
 
 ## Log
 
@@ -33,10 +33,12 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 |---|---|---|---|
 | 2026-10-23 | workspace | criação da estrutura, docs e git | ee2315e |
 | 2026-10-23 | workspace | linhas de produto com Stable Diffusion no backlog | 4900333 |
-| 2026-10-23 | clt-pj | auditoria de saída e roadmap por fases | este commit |
+| 2026-10-23 | clt-pj | auditoria de saída e roadmap por fases | 6488473 |
+| 2026-10-23 | clt-pj | motor de cálculo, 27 testes verdes e site estático | este commit |
 
 ## Decisões
 
+- **Monetização por afiliado/lead, não por anúncio.** Detalhes e métricas em `MONETIZACAO.md`.
 - **Primeira saída: CLT x PJ.** Score 34/40 na matriz do ROADMAP; planilha PF/PJ é a monetização e custo de importação é a segunda ferramenta.
 - **SD é isca, não produto.** Pack gratuito de printables para captura de e-mail; venda só depois de haver lista.
 - **Serviço só como caixa de emergência.** Retrato pet e automação PME ficam congelados até decisão em contrário.

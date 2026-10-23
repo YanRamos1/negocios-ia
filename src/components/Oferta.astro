@@ -1,0 +1,38 @@
+---
+import { afiliadoPrincipal, capturaLead, avisoAfiliado } from '../config/monetizacao';
+---
+
+{
+  afiliadoPrincipal && (
+    <aside class="oferta" aria-label="Oferta de parceiro">
+      <div class="oferta-texto">
+        <strong>{afiliadoPrincipal.titulo}</strong>
+        <p>{afiliadoPrincipal.texto}</p>
+        {afiliadoPrincipal.aviso && <p class="oferta-aviso">{afiliadoPrincipal.aviso}</p>}
+      </div>
+      <a class="botao" href={afiliadoPrincipal.url} rel="sponsored noopener" target="_blank">
+        {afiliadoPrincipal.cta}
+      </a>
+    </aside>
+  )
+}
+
+{
+  capturaLead && (
+    <aside class="oferta oferta-lead" aria-label="Material gratuito">
+      <div class="oferta-texto">
+        <strong>{capturaLead.titulo}</strong>
+        <p>{capturaLead.texto}</p>
+      </div>
+      <a class="botao botao-secundario" href={capturaLead.url} rel="noopener">
+        {capturaLead.cta}
+      </a>
+    </aside>
+  )
+}
+
+{
+  (afiliadoPrincipal || capturaLead) && (
+    <p class="transparencia">{avisoAfiliado}</p>
+  )
+}

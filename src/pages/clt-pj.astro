@@ -1,0 +1,140 @@
+---
+import Base from '../layouts/Base.astro';
+import Oferta from '../components/Oferta.astro';
+
+const faq = [
+  {
+    pergunta: 'O cálculo já considera a isenção de até R$ 5.000 do IR?',
+    resposta:
+      'Sim. Aplicamos a tabela mensal de 2026 e o redutor da Lei 15.270/2025, que zera o imposto na fonte até R$ 5.000 de rendimento e reduz parcialmente até R$ 7.350.',
+  },
+  {
+    pergunta: 'Por que a comparação usa o Simples Nacional?',
+    resposta:
+      'É o regime mais comum para quem fatura como pessoa jurídica no Brasil. O cálculo usa os Anexos III e V, com o fator R de 28% para decidir entre eles.',
+  },
+  {
+    pergunta: 'O que não está incluído?',
+    resposta:
+      'Benefícios negociados além do informado, participação nos lucros, vale-transporte, plano de saúde empresarial, e regimes diferentes do Simples. Também não modelamos dependentes para o IRRF da PJ além do informado.',
+  },
+  {
+    pergunta: 'PJ sempre compensa?',
+    resposta:
+      'Não. A vantagem depende do faturamento, do pró-labore e das despesas. Faturamento baixo costuma tornar o CLT melhor quando se considera o custo de contador e a ausência de FGTS e férias remuneradas.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.pergunta,
+    acceptedAnswer: { '@type': 'Answer', text: item.resposta },
+  })),
+};
+---
+
+<Base
+  title="CLT x PJ 2026: calculadora de salário líquido e faturamento"
+  description="Compare quanto sobra no bolso em CLT e em PJ no Simples Nacional, com INSS, IRRF 2026, fator R e custo do empregador."
+>
+  <h1>CLT x PJ: quanto sobra de verdade em 2026</h1>
+  <p class="lead">
+    Informe o salário CLT e o faturamento PJ. O cálculo aplica INSS, IRRF com o redutor
+    da Lei 15.270/2025, Simples Nacional (Anexos III e V) e fator R.
+  </p>
+
+  <form id="form-calc" class="card" novalidate>
+    <div class="campos">
+      <div class="campo">
+        <label for="salario">Salário CLT bruto (mensal)</label>
+        <input id="salario" type="text" inputmode="decimal" value="5.000,00" />
+        <small>Valor antes dos descontos.</small>
+      </div>
+      <div class="campo">
+        <label for="faturamento">Faturamento PJ (mensal)</label>
+        <input id="faturamento" type="text" inputmode="decimal" value="6.500,00" />
+        <small>O que a empresa recebe por mês.</small>
+      </div>
+      <div class="campo">
+        <label for="despesas">Despesas da PJ (mensal)</label>
+        <input id="despesas" type="text" inputmode="decimal" value="300,00" />
+        <small>Contador, taxas e sistemas.</small>
+      </div>
+      <div class="campo">
+        <label for="prolabore">Pró-labore (mensal)</label>
+        <input id="prolabore" type="text" inputmode="decimal" value="1.820,00" />
+        <label class="checkbox">
+          <input id="modo-prolabore" type="checkbox" checked />
+          Usar 28% do faturamento (fator R)
+        </label>
+      </div>
+      <div class="campo">
+        <label for="dependentes">Dependentes</label>
+        <input id="dependentes" type="number" min="0" step="1" value="0" />
+        <small>Cada dependente deduz R$ 189,59 do IRRF.</small>
+      </div>
+      <div class="campo">
+        <label for="beneficios">Benefícios CLT (mensal)</label>
+        <input id="beneficios" type="text" inputmode="decimal" value="0,00" />
+        <small>VR, VA, plano de saúde pagos pela empresa.</small>
+      </div>
+      <div class="campo">
+        <label for="encargos">Encargos patronais (%)</label>
+        <input id="encargos" type="text" inputmode="decimal" value="26,8" />
+        <small>CPP, RAT e terceiros. Usado só no custo da empresa.</small>
+      </div>
+    </div>
+
+    <div class="acoes">
+      <button class="botao" type="submit">Calcular</button>
+      <button class="botao botao-secundario" type="button" id="compartilhar">Copiar link</button>
+    </div>
+    <p class="aviso-legal">
+      Estimativa. O resultado depende do CNAE, do município e da contabilidade da empresa.
+    </p>
+  </form>
+
+  <section id="resultado" class="resultado" hidden aria-live="polite"></section>
+
+  <noscript>
+    <p class="card">
+      Esta calculadora precisa de JavaScript para calcular. O restante do conteúdo continua
+      disponível para leitura.
+    </p>
+  </noscript>
+
+  <Oferta />
+
+  <section class="explicacao">
+    <h2>Como o cálculo funciona</h2>
+    <ul>
+      <li><strong>INSS:</strong> tabela progressiva de 2026, com teto de R$ 8.475,55 e desconto máximo de R$ 988,09.</li>
+      <li><strong>IRRF:</strong> tabela mensal com parcela a deduzir, escolhendo entre dedução legal e desconto simplificado de R$ 607,20 — o que resultar em menos imposto.</li>
+      <li><strong>Redutor de 2026:</strong> zera o imposto até R$ 5.000 de rendimento e cai linearmente até R$ 7.350.</li>
+      <li><strong>Simples Nacional:</strong> alíquota efetiva calculada pela receita bruta dos últimos 12 meses, com fator R definindo Anexo III (a partir de 28% de folha) ou Anexo V.</li>
+      <li><strong>Custo do empregador:</strong> salário mais FGTS, provisões de 13º e férias com 1/3, e encargos patronais.</li>
+    </ul>
+    <p class="aviso-legal">
+      Fontes: tabela de contribuição do INSS, tabela de tributação da Receita Federal para 2026
+      e Lei 15.270/2025. Última revisão dos parâmetros: outubro de 2026.
+    </p>
+  </section>
+
+  <section class="faq">
+    <h2>Perguntas frequentes</h2>
+    {faq.map((item) => (
+      <details>
+        <summary>{item.pergunta}</summary>
+        <p>{item.resposta}</p>
+      </details>
+    ))}
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script>
+    import '../scripts/clt-pj';
+  </script>
+</Base>

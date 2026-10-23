@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Sobre as calculadoras"
+  description="Quem mantém as calculadoras, como os parâmetros são versionados e quais são as limitações."
+>
+  <h1>Sobre</h1>
+  <p class="lead">
+    Calculadoras gratuitas de impostos e trabalho, com parâmetros versionados e cálculo testado.
+  </p>
+
+  <h2>Como os números são mantidos</h2>
+  <p>
+    Tabelas de INSS, IRRF, Simples Nacional e encargos ficam em um arquivo de dados com
+    vigência e link para a fonte oficial. O código não contém alíquota solta: qualquer
+    atualização passa pelo mesmo arquivo e pela suíte de testes.
+  </p>
+
+  <h2>Limitações</h2>
+  <p>
+    As ferramentas são estimativas para orientar a decisão, não substituem contador,
+    advogado ou o cálculo oficial da sua folha. Regimes diferentes do Simples, benefícios
+    negociados e particularidades do CNAE podem mudar o resultado.
+  </p>
+
+  <h2>Transparência</h2>
+  <p>
+    Quando houver link de afiliado, ele será identificado e não altera o valor da ferramenta.
+    O projeto é aberto: o código fica em
+    <a href="https://github.com/YanRamos1/negocios-ia" rel="noopener">github.com/YanRamos1/negocios-ia</a>.
+  </p>
+</Base>

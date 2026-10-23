@@ -25,6 +25,24 @@ _infra/           base compartilhada: layout, SEO, analytics, deploy
 - Uso de IA em imagem/texto: declarar onde a plataforma exigir (Etsy, KDP).
 - Nenhum segredo no repositório — `.env` fica fora do git.
 
+## Como rodar
+
+```
+npm install --include=dev
+npm test
+npm run dev
+npm run build
+```
+
+No Windows deste ambiente, `npm config` tem `omit=dev` e `NODE_ENV=production` — por isso
+o `--include=dev`. No CI o comando é `npm ci --include=dev`.
+
+Build para o GitHub Pages (projeto em subpasta):
+
+```
+$env:BASE_PATH='/negocios-ia'; $env:SITE_URL='https://yanramos1.github.io'; npm run build
+```
+
 ## Convenção de commit
 
 ```
