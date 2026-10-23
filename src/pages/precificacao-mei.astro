@@ -1,0 +1,152 @@
+---
+import Base from '../layouts/Base.astro';
+import Oferta from '../components/Oferta.astro';
+import { url } from '../lib/urls';
+
+const faq = [
+  {
+    pergunta: 'Qual a diferença entre margem e markup?',
+    resposta:
+      'Markup é quanto o preço é maior que o custo (2x, 3x). Margem é quanto do preço sobra de lucro (30%). Vender com markup de 2x dá margem de 50%; vender com margem de 30% exige markup de 1,43x.',
+  },
+  {
+    pergunta: 'Por que a taxa do marketplace entra no preço?',
+    resposta:
+      'Porque ela incide sobre o preço de venda, não sobre o custo. Se você soma 14% de comissão ao custo, a margem real fica menor do que planejou. A conta correta divide o custo por (1 − margem − taxa).',
+  },
+  {
+    pergunta: 'Preciso incluir o DAS no custo?',
+    resposta:
+      'Sim. O DAS é custo fixo mensal do MEI. Divida os custos fixos mais o DAS pelo número de peças vendidas no mês para chegar ao rateio por peça.',
+  },
+  {
+    pergunta: 'O que é o ponto de equilíbrio?',
+    resposta:
+      'É a quantidade de peças que paga todos os custos fixos. Abaixo desse número, cada venda ainda cobre o custo direto, mas o mês fecha no prejuízo.',
+  },
+  {
+    pergunta: 'Devo cobrar pela minha hora?',
+    resposta:
+      'Se você não cobra pela hora, o negócio parece lucrativo e na verdade está pagando menos que um emprego. Comece com um valor de hora que você aceitaria receber e ajuste depois.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.pergunta,
+    acceptedAnswer: { '@type': 'Answer', text: item.resposta },
+  })),
+};
+---
+
+<Base
+  title="Precificação para MEI e artesão: preço com margem real"
+  description="Calcule o preço de venda incluindo material, mão de obra, custo fixo, DAS, taxa do marketplace e margem. Veja lucro por peça e ponto de equilíbrio."
+>
+  <h1>Quanto cobrar pela sua peça</h1>
+  <p class="lead">
+    O preço que cobre material, sua hora, custo fixo, DAS e a comissão do canal — e ainda
+    entrega a margem que você quer.
+  </p>
+
+  <form id="form-preco" class="card" novalidate>
+    <div class="campos">
+      <div class="campo">
+        <label for="material">Material por peça (R$)</label>
+        <input id="material" type="text" inputmode="decimal" value="20,00" />
+      </div>
+      <div class="campo">
+        <label for="horas">Horas por peça</label>
+        <input id="horas" type="text" inputmode="decimal" value="1,5" />
+        <small>Aceita decimais: 1,5 = uma hora e meia.</small>
+      </div>
+      <div class="campo">
+        <label for="valor-hora">Quanto vale sua hora (R$)</label>
+        <input id="valor-hora" type="text" inputmode="decimal" value="30,00" />
+      </div>
+      <div class="campo">
+        <label for="embalagem">Embalagem e frete (R$)</label>
+        <input id="embalagem" type="text" inputmode="decimal" value="5,00" />
+      </div>
+      <div class="campo">
+        <label for="fixos">Custos fixos mensais (R$)</label>
+        <input id="fixos" type="text" inputmode="decimal" value="500,00" />
+        <small>Aluguel, internet, energia, ferramentas.</small>
+      </div>
+      <div class="campo">
+        <label for="das">DAS e impostos mensais (R$)</label>
+        <input id="das" type="text" inputmode="decimal" value="82,00" />
+        <small>Valor do DAS do MEI.</small>
+      </div>
+      <div class="campo">
+        <label for="pecas">Peças vendidas por mês</label>
+        <input id="pecas" type="number" min="1" step="1" value="50" />
+      </div>
+      <div class="campo">
+        <label for="taxa">Taxa do canal (%)</label>
+        <input id="taxa" type="text" inputmode="decimal" value="10" />
+        <small>Cartão, Shopee, Mercado Livre: confirme a sua.</small>
+      </div>
+      <div class="campo">
+        <label for="margem">Margem desejada (%)</label>
+        <input id="margem" type="text" inputmode="decimal" value="30" />
+        <small>Percentual do preço que deve sobrar.</small>
+      </div>
+    </div>
+
+    <div class="acoes">
+      <button class="botao" type="submit">Calcular preço</button>
+    </div>
+    <p class="aviso-legal">
+      Estimativa. A taxa do canal e o DAS mudam conforme a plataforma e o município.
+    </p>
+  </form>
+
+  <section id="resultado" class="resultado" hidden aria-live="polite"></section>
+
+  <noscript>
+    <p class="card">
+      Esta calculadora precisa de JavaScript para calcular. O restante do conteúdo continua
+      disponível para leitura.
+    </p>
+  </noscript>
+
+  <Oferta />
+
+  <section class="explicacao">
+    <h2>Como o preço é montado</h2>
+    <ul>
+      <li><strong>Custo direto:</strong> material, mão de obra (horas × valor da hora) e embalagem.</li>
+      <li><strong>Custo fixo rateado:</strong> (custos fixos + DAS) ÷ peças vendidas no mês.</li>
+      <li><strong>Preço:</strong> custo total ÷ (1 − margem − taxa do canal). A taxa incide sobre o preço, por isso entra no denominador.</li>
+      <li><strong>Ponto de equilíbrio:</strong> custo fixo ÷ (preço − custo direto − taxa). Abaixo disso, o mês fecha no vermelho.</li>
+    </ul>
+    <p class="aviso-legal">
+      Vender com margem de 50% não é dobrar o custo: é dividir o custo por 0,5. Confundir
+      margem com markup é o erro que mais quebra negócio pequeno.
+    </p>
+  </section>
+
+  <section class="faq">
+    <h2>Perguntas frequentes</h2>
+    {faq.map((item) => (
+      <details>
+        <summary>{item.pergunta}</summary>
+        <p>{item.resposta}</p>
+      </details>
+    ))}
+  </section>
+
+  <p>
+    Quer separar o dinheiro da pessoa física e da empresa?
+    <a href={url('clt-pj/')}>Compare CLT x PJ</a> antes de decidir o regime.
+  </p>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script>
+    import '../scripts/precificacao-mei';
+  </script>
+</Base>

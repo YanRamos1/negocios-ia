@@ -14,7 +14,7 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 2 | Financeiro PF/PJ (planilha) | `produtos/planilhas/financeiro-mei` | em andamento | P0 | venda R$27–47 | landing + checkout Kiwify |
 | 3 | Custo de importação | `ferramentas/custo-importacao` | publicado | P1 | afiliado redirecionador | páginas por produto/faixa |
 | 4 | Taxa de marketplace | `ferramentas/taxa-marketplace` | planejado | P1 | afiliado ERP/frete | tabela de comissões por categoria |
-| 5 | Precificação MEI/artesão | `ferramentas/precificacao-mei` | planejado | P1 | funil p/ planilha | definir modelo de custo |
+| 5 | Precificação MEI/artesão | `ferramentas/precificacao-mei` | publicado | P1 | funil p/ planilha | páginas por nicho (confeitaria, artesanato) |
 | 6 | Precificação confeitaria (planilha) | `produtos/planilhas/precificacao-confeitaria` | planejado | P1 | venda R$27–47 | ficha técnica por receita |
 | 7 | Rescisão trabalhista | `ferramentas/rescisao` | publicado | P2 | afiliado advocacia/contab. | páginas por tipo de desligamento |
 | 8 | Fluxo de caixa + DRE | `produtos/planilhas/fluxo-caixa-dre` | planejado | P2 | venda R$37–57 | modelo de categorias |
@@ -41,7 +41,8 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 2026-10-23 | financeiro-pf-pj | F4: gerador da planilha + 7 testes com fórmulas avaliadas | 6ac200a |
 | 2026-10-23 | custo-importacao | calculadora com regras de 12/05/2026, 14 testes e smoke test | cc0cdde |
 | 2026-10-23 | custo-importacao | 6 simulações por valor (US$ 30 a 1.000) no sitemap | 07538fa |
-| 2026-10-23 | rescisao | calculadora com 4 tipos de desligamento e 11 testes | este commit |
+| 2026-10-23 | rescisao | calculadora com 4 tipos de desligamento e 11 testes | 8559bcf |
+| 2026-10-23 | precificacao-mei | preço com custo, taxa e margem + ponto de equilíbrio, 8 testes | este commit |
 
 ## Decisões
 
