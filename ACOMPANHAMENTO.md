@@ -44,7 +44,8 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 2026-10-23 | rescisao | calculadora com 4 tipos de desligamento e 11 testes | 8559bcf |
 | 2026-10-23 | precificacao-mei | preço com custo, taxa e margem + ponto de equilíbrio, 8 testes | dc4f9c9 |
 | 2026-10-23 | taxa-marketplace | comparação de 3 canais com preço mínimo, 7 testes | f3611e3 |
-| 2026-10-23 | planilha | landing com download da versão gratuita gerada no CI | este commit |
+| 2026-10-23 | planilha | landing com download da versão gratuita gerada no CI | 691dd5e |
+| 2026-10-23 | workspace | suíte e2e Playwright (17 testes) rodando no CI | f0c043a |
 
 ## Decisões
 

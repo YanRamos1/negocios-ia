@@ -34,6 +34,16 @@ npm run dev
 npm run build
 ```
 
+Testes de navegador (Playwright), contra o build local:
+
+```
+python produtos/planilhas/financeiro-mei/gerar_planilha.py --versao gratis --saida public/planilhas
+npm run test:e2e
+```
+
+O primeiro comando gera o arquivo que o teste do download consulta. O CI roda
+unitários (Vitest), testes da planilha (unittest) e e2e antes de publicar.
+
 No Windows deste ambiente, `npm config` tem `omit=dev` e `NODE_ENV=production` — por isso
 o `--include=dev`. No CI o comando é `npm ci --include=dev`.
 
