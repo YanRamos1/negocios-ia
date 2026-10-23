@@ -15,6 +15,9 @@ output/
 produtos/planilhas/*/saida/
 public/planilhas/*.xlsx
 tmp/
+test-results/
+playwright-report/
+blob-report/
 
 # segredos
 .env
