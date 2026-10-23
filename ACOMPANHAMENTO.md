@@ -2,13 +2,15 @@
 
 Atualizado em: 2026-10-23
 
+Roadmap vigente: [ROADMAP.md](./ROADMAP.md)
+
 Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` → `pausado`
 
 ## Board
 
 | # | Projeto | Pasta | Status | Prioridade | Monetização | Próximo passo |
 |---|---|---|---|---|---|---|
-| 1 | CLT x PJ | `ferramentas/clt-pj` | planejado | P0 | afiliado contabilidade / banco PJ | levantar parâmetros 2026 + testes |
+| 1 | CLT x PJ | `ferramentas/clt-pj` | spec | P0 | afiliado contabilidade + planilha PF/PJ | F0: montar infra e template |
 | 2 | Financeiro MEI (planilha) | `produtos/planilhas/financeiro-mei` | planejado | P0 | venda R$27–47 | definir abas e travas |
 | 3 | Custo de importação | `ferramentas/custo-importacao` | planejado | P1 | afiliado redirecionador | mapear alíquotas e faixas |
 | 4 | Taxa de marketplace | `ferramentas/taxa-marketplace` | planejado | P1 | afiliado ERP/frete | tabela de comissões por categoria |
@@ -29,10 +31,15 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 
 | Data | Projeto | O que foi feito | Commit |
 |---|---|---|---|
-| 2026-10-23 | workspace | criação da estrutura, docs e git | inicial |
+| 2026-10-23 | workspace | criação da estrutura, docs e git | ee2315e |
+| 2026-10-23 | workspace | linhas de produto com Stable Diffusion no backlog | 4900333 |
+| 2026-10-23 | clt-pj | auditoria de saída e roadmap por fases | este commit |
 
 ## Decisões
 
+- **Primeira saída: CLT x PJ.** Score 34/40 na matriz do ROADMAP; planilha PF/PJ é a monetização e custo de importação é a segunda ferramenta.
+- **SD é isca, não produto.** Pack gratuito de printables para captura de e-mail; venda só depois de haver lista.
+- **Serviço só como caixa de emergência.** Retrato pet e automação PME ficam congelados até decisão em contrário.
 - **Monorepo.** Um repositório só; se algum projeto crescer, sai como repo próprio depois.
 - **Digital only.** Nada de POD, estoque ou frete.
 - **Cálculo em código, nunca em LLM.** Teste unitário é pré-requisito para publicar.
