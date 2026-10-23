@@ -1,0 +1,161 @@
+---
+import Base from '../layouts/Base.astro';
+import Oferta from '../components/Oferta.astro';
+import { url } from '../lib/urls';
+
+const faq = [
+  {
+    pergunta: 'Como é calculado o aviso prévio?',
+    resposta:
+      'Na dispensa sem justa causa, são 30 dias mais 3 dias por ano completo de casa, até o limite de 90 dias (Lei 12.506/2011). No pedido de demissão, o aviso é sempre de 30 dias.',
+  },
+  {
+    pergunta: 'O que muda no acordo do art. 484-A?',
+    resposta:
+      'O aviso indenizado é pago pela metade, a multa do FGTS cai de 40% para 20% e o saque é de até 80% do fundo. Não há seguro-desemprego.',
+  },
+  {
+    pergunta: 'Justa causa recebe o quê?',
+    resposta:
+      'Apenas saldo de salário e férias vencidas com terço. Não há 13º proporcional, férias proporcionais, aviso nem multa do FGTS.',
+  },
+  {
+    pergunta: 'O aviso indenizado entra no cálculo de férias e 13º?',
+    resposta:
+      'Sim. O período do aviso indenizado projeta o contrato, então ele conta para férias e 13º proporcionais. É o que a Súmula 441 do TST determina.',
+  },
+  {
+    pergunta: 'Por que o 13º e as férias aparecem como isentos?',
+    resposta:
+      'Férias indenizadas e o terço constitucional são isentos de INSS e IRRF. O aviso indenizado também. Já saldo de salário, 13º e aviso trabalhado entram na tributação.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.pergunta,
+    acceptedAnswer: { '@type': 'Answer', text: item.resposta },
+  })),
+};
+---
+
+<Base
+  title="Calculadora de rescisão trabalhista 2026: verbas e líquido"
+  description="Calcule aviso prévio proporcional, 13º, férias, multa do FGTS e descontos na rescisão, para dispensa sem justa causa, pedido de demissão, justa causa ou acordo."
+>
+  <h1>Rescisão trabalhista: quanto você recebe</h1>
+  <p class="lead">
+    Informe salário, datas e saldo do FGTS. O cálculo aplica o aviso proporcional, as
+    verbas de cada tipo de desligamento e os descontos de INSS e IRRF de 2026.
+  </p>
+
+  <form id="form-rescisao" class="card" novalidate>
+    <div class="campos">
+      <div class="campo">
+        <label for="salario">Salário bruto (R$)</label>
+        <input id="salario" type="text" inputmode="decimal" value="3.000,00" />
+      </div>
+      <div class="campo">
+        <label for="admissao">Data de admissão</label>
+        <input id="admissao" type="date" value="2023-01-10" />
+      </div>
+      <div class="campo">
+        <label for="desligamento">Data de desligamento</label>
+        <input id="desligamento" type="date" value="2026-10-23" />
+      </div>
+      <div class="campo">
+        <label for="tipo">Tipo de desligamento</label>
+        <select id="tipo">
+          <option value="sem-justa-causa">Dispensa sem justa causa</option>
+          <option value="pedido-demissao">Pedido de demissão</option>
+          <option value="justa-causa">Dispensa por justa causa</option>
+          <option value="acordo">Acordo entre as partes (484-A)</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="aviso">Aviso prévio</label>
+        <select id="aviso">
+          <option value="indenizado">Indenizado</option>
+          <option value="trabalhado">Trabalhado</option>
+          <option value="nao-cumprido">Não cumprido</option>
+        </select>
+        <small>No pedido de demissão, "não cumprido" desconta um salário.</small>
+      </div>
+      <div class="campo">
+        <label for="fgts">Saldo do FGTS (R$)</label>
+        <input id="fgts" type="text" inputmode="decimal" value="12.000,00" />
+        <small>Consulte no app FGTS. Base da multa.</small>
+      </div>
+      <div class="campo">
+        <label for="ferias-vencidas">Férias vencidas</label>
+        <select id="ferias-vencidas">
+          <option value="0">Nenhum período</option>
+          <option value="1">1 período</option>
+          <option value="2">2 períodos</option>
+          <option value="3">3 períodos</option>
+        </select>
+        <small>Períodos completos não gozados.</small>
+      </div>
+      <div class="campo">
+        <label for="dependentes">Dependentes</label>
+        <input id="dependentes" type="number" min="0" step="1" value="0" />
+        <small>Para o IRRF.</small>
+      </div>
+    </div>
+
+    <div class="acoes">
+      <button class="botao" type="submit">Calcular</button>
+    </div>
+    <p class="aviso-legal">
+      Estimativa. Confira sempre o TRCT e o cálculo oficial do seu empregador.
+    </p>
+  </form>
+
+  <section id="resultado" class="resultado" hidden aria-live="polite"></section>
+
+  <noscript>
+    <p class="card">
+      Esta calculadora precisa de JavaScript para calcular. O restante do conteúdo continua
+      disponível para leitura.
+    </p>
+  </noscript>
+
+  <Oferta />
+
+  <section class="explicacao">
+    <h2>O que entra em cada tipo de desligamento</h2>
+    <ul>
+      <li><strong>Sem justa causa:</strong> saldo de salário, aviso proporcional, 13º e férias proporcionais, férias vencidas e multa de 40% do FGTS.</li>
+      <li><strong>Pedido de demissão:</strong> saldo, 13º e férias proporcionais, férias vencidas. Sem multa e sem saque. Aviso não cumprido é descontado.</li>
+      <li><strong>Justa causa:</strong> só saldo de salário e férias vencidas com terço.</li>
+      <li><strong>Acordo (art. 484-A):</strong> metade do aviso, multa de 20% do FGTS, saque de até 80% e sem seguro-desemprego.</li>
+    </ul>
+    <p class="aviso-legal">
+      Aviso indenizado projeta o contrato para férias e 13º (Súmula 441 do TST).
+      Parâmetros de INSS e IRRF de 2026, incluindo o redutor da Lei 15.270/2025.
+    </p>
+  </section>
+
+  <section class="faq">
+    <h2>Perguntas frequentes</h2>
+    {faq.map((item) => (
+      <details>
+        <summary>{item.pergunta}</summary>
+        <p>{item.resposta}</p>
+      </details>
+    ))}
+  </section>
+
+  <p>
+    Vai negociar o novo contrato?
+    <a href={url('clt-pj/')}>Compare CLT x PJ</a> e veja quanto sobra em cada regime.
+  </p>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script>
+    import '../scripts/rescisao';
+  </script>
+</Base>

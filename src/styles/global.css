@@ -116,6 +116,7 @@ p.lead {
 
 input[type="text"],
 input[type="number"],
+input[type="date"],
 select {
   padding: 10px 12px;
   border: 1px solid var(--line);

@@ -10,6 +10,7 @@ export const GET: APIRoute = () => {
     '',
     'clt-pj/',
     'custo-importacao/',
+    'rescisao/',
     'sobre/',
     'privacidade/',
     ...faixas.map((faixa) => `clt-pj/${faixa.slug}/`),
