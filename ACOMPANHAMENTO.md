@@ -36,6 +36,8 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 2026-10-23 | clt-pj | auditoria de saída e roadmap por fases | 6488473 |
 | 2026-10-23 | clt-pj | motor de cálculo, 27 testes verdes e site estático | ec44a3a |
 | 2026-10-23 | clt-pj | deploy no GitHub Pages e smoke test no navegador | 7a157c3 |
+| 2026-10-23 | clt-pj | correção do link do índice (base sem barra) | 7d5b8f8 |
+| 2026-10-23 | clt-pj | F2: 5 páginas por faixa, sitemap e robots dinâmicos | 539aae4 |
 
 ## Decisões
 
