@@ -357,6 +357,44 @@ select:focus {
   font-size: 0.85rem;
 }
 
+.canais {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 12px 0 4px;
+}
+
+.canal {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  display: grid;
+  gap: 6px;
+}
+
+.canal label {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.canal input {
+  margin-bottom: 6px;
+}
+
+.tabela tr.melhor td {
+  background: var(--accent-soft);
+}
+
+.alerta {
+  font-size: 0.72rem;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: 999px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;

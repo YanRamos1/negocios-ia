@@ -1,0 +1,156 @@
+---
+import Base from '../layouts/Base.astro';
+import Oferta from '../components/Oferta.astro';
+import { url } from '../lib/urls';
+
+const faq = [
+  {
+    pergunta: 'A comissão é cobrada sobre o frete também?',
+    resposta:
+      'Depende do canal e do programa. Por padrão, a comissão incide sobre o preço do produto. Se o seu canal cobra sobre o total com frete, some o frete ao preço antes de calcular ou ajuste a comissão.',
+  },
+  {
+    pergunta: 'Por que a sobra é diferente da margem?',
+    resposta:
+      'Sobra é o valor em reais que fica depois de todos os custos. Margem é quanto essa sobra representa do preço. Um produto de R$ 100 com R$ 20 de sobra tem 20% de margem; um de R$ 500 com os mesmos R$ 20 tem 4%.',
+  },
+  {
+    pergunta: 'O que é o preço mínimo?',
+    resposta:
+      'É o preço que entrega a margem que você quer depois de descontar custo, frete, comissão, taxa fixa e imposto. Abaixo dele, o canal come a margem.',
+  },
+  {
+    pergunta: 'Devo usar a comissão da categoria ou a do programa?',
+    resposta:
+      'Use a que aparece na sua simulação de anúncio, porque ela varia por categoria e por tipo de anúncio (clássico ou premium). O painel do canal é a fonte confiável.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.pergunta,
+    acceptedAnswer: { '@type': 'Answer', text: item.resposta },
+  })),
+};
+---
+
+<Base
+  title="Taxa de marketplace: quanto sobra em cada canal"
+  description="Compare quanto sobra da venda em até três canais, com comissão, taxa fixa, frete e imposto. Veja a margem real e o preço mínimo."
+>
+  <h1>Quanto sobra da venda em cada canal</h1>
+  <p class="lead">
+    O mesmo produto pode render margens muito diferentes entre balcão, cartão e marketplace.
+    Informe as taxas do seu canal e compare o que cai na conta.
+  </p>
+
+  <form id="form-canal" class="card" novalidate>
+    <div class="campos">
+      <div class="campo">
+        <label for="preco">Preço de venda (R$)</label>
+        <input id="preco" type="text" inputmode="decimal" value="100,00" />
+      </div>
+      <div class="campo">
+        <label for="custo">Custo do produto (R$)</label>
+        <input id="custo" type="text" inputmode="decimal" value="40,00" />
+      </div>
+      <div class="campo">
+        <label for="frete">Frete pago por você (R$)</label>
+        <input id="frete" type="text" inputmode="decimal" value="10,00" />
+      </div>
+      <div class="campo">
+        <label for="imposto">Imposto sobre a venda (%)</label>
+        <input id="imposto" type="text" inputmode="decimal" value="4" />
+        <small>Simples ou MEI: use a alíquota efetiva.</small>
+      </div>
+      <div class="campo">
+        <label for="margem">Margem alvo (%)</label>
+        <input id="margem" type="text" inputmode="decimal" value="20" />
+        <small>Usada para calcular o preço mínimo.</small>
+      </div>
+    </div>
+
+    <h2>Seus canais</h2>
+    <div class="canais">
+      <div class="canal">
+        <label for="canal-1-nome">Canal 1</label>
+        <input id="canal-1-nome" type="text" value="Balcão" />
+        <label for="canal-1-comissao">Comissão (%)</label>
+        <input id="canal-1-comissao" type="text" inputmode="decimal" value="0" />
+        <label for="canal-1-fixa">Taxa fixa (R$)</label>
+        <input id="canal-1-fixa" type="text" inputmode="decimal" value="0,00" />
+      </div>
+      <div class="canal">
+        <label for="canal-2-nome">Canal 2</label>
+        <input id="canal-2-nome" type="text" value="Cartão" />
+        <label for="canal-2-comissao">Comissão (%)</label>
+        <input id="canal-2-comissao" type="text" inputmode="decimal" value="5" />
+        <label for="canal-2-fixa">Taxa fixa (R$)</label>
+        <input id="canal-2-fixa" type="text" inputmode="decimal" value="0,00" />
+      </div>
+      <div class="canal">
+        <label for="canal-3-nome">Canal 3</label>
+        <input id="canal-3-nome" type="text" value="Marketplace" />
+        <label for="canal-3-comissao">Comissão (%)</label>
+        <input id="canal-3-comissao" type="text" inputmode="decimal" value="14" />
+        <label for="canal-3-fixa">Taxa fixa (R$)</label>
+        <input id="canal-3-fixa" type="text" inputmode="decimal" value="4,00" />
+      </div>
+    </div>
+
+    <div class="acoes">
+      <button class="botao" type="submit">Comparar canais</button>
+    </div>
+    <p class="aviso-legal">
+      As taxas começam como exemplo. Troque pelas do seu canal antes de decidir.
+    </p>
+  </form>
+
+  <section id="resultado" class="resultado" hidden aria-live="polite"></section>
+
+  <noscript>
+    <p class="card">
+      Esta calculadora precisa de JavaScript para calcular. O restante do conteúdo continua
+      disponível para leitura.
+    </p>
+  </noscript>
+
+  <Oferta />
+
+  <section class="explicacao">
+    <h2>Como a conta funciona</h2>
+    <ul>
+      <li><strong>Sobra:</strong> preço − custo − frete − comissão − taxa fixa − imposto.</li>
+      <li><strong>Margem:</strong> sobra ÷ preço.</li>
+      <li><strong>Preço mínimo:</strong> (custo + frete + taxa fixa) ÷ (1 − comissão − imposto − margem alvo).</li>
+      <li><strong>Veredito:</strong> o canal com maior sobra entre os que atingem o preço mínimo.</li>
+    </ul>
+    <p class="aviso-legal">
+      Cada canal tem regras próprias de frete, devolução e taxa por categoria. Esta
+      calculadora compara o que você informa, não substitui o simulador oficial.
+    </p>
+  </section>
+
+  <section class="faq">
+    <h2>Perguntas frequentes</h2>
+    {faq.map((item) => (
+      <details>
+        <summary>{item.pergunta}</summary>
+        <p>{item.resposta}</p>
+      </details>
+    ))}
+  </section>
+
+  <p>
+    Ainda não definiu o preço?
+    <a href={url('precificacao-mei/')}>Use a calculadora de precificação</a> antes de comparar.
+  </p>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script>
+    import '../scripts/taxa-marketplace';
+  </script>
+</Base>
