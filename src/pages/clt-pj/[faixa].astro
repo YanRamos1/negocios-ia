@@ -1,0 +1,126 @@
+---
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/urls';
+import { comparar, formatBRL, formatPercent } from '../../../ferramentas/clt-pj/src/index';
+import { faixas, rotuloFaixa } from '../../data/faixas';
+
+export function getStaticPaths() {
+  return faixas.map((faixa) => ({
+    params: { faixa: faixa.slug },
+    props: { salarioCents: faixa.salarioCents },
+  }));
+}
+
+interface Props {
+  salarioCents: number;
+}
+
+const { salarioCents } = Astro.props as Props;
+const rotulo = rotuloFaixa(salarioCents);
+
+const resultado = comparar(
+  { salarioBrutoCents: salarioCents },
+  {
+    faturamentoMensalCents: salarioCents,
+    prolaborePercentualFaturamento: 0.28,
+    despesasMensaisCents: 30000,
+  },
+);
+
+const { clt, pj } = resultado;
+const diferenca = Math.abs(resultado.diferencaMensalCents);
+const equivalente = resultado.faturamentoEquivalenteCents
+  ? formatBRL(resultado.faturamentoEquivalenteCents)
+  : 'acima de R$ 1 milhão por mês';
+
+const outrasFaixas = faixas.filter((faixa) => faixa.salarioCents !== salarioCents);
+---
+
+<Base
+  title={`CLT x PJ para ${rotulo}: quanto sobra em cada regime (2026)`}
+  description={`Comparação de líquido mensal e anual entre CLT e PJ para ${rotulo} em 2026, com INSS, IRRF, Simples Nacional e fator R.`}
+>
+  <nav aria-label="Trilha">
+    <p class="aviso-legal"><a href={url('clt-pj/')}>CLT x PJ</a> › {rotulo}</p>
+  </nav>
+
+  <h1>CLT x PJ para {rotulo}: quanto sobra em 2026</h1>
+  <p class="lead">
+    Simulação com o mesmo valor bruto dos dois lados: {rotulo} de salário CLT contra {rotulo}
+    de faturamento PJ, com pró-labore de 28% e R$ 300 de despesas mensais.
+  </p>
+
+  <div class="grid-resultado">
+    <div class={`bloco${resultado.veredito === 'CLT' ? ' destaque' : ''}`}>
+      <h3>CLT</h3>
+      <div class="valor">{formatBRL(clt.liquidoMensalCents)}<small> /mês</small></div>
+      <div class="linhas">
+        <div><span>INSS</span><span>- {formatBRL(clt.inssCents)}</span></div>
+        <div><span>IRRF</span><span>- {formatBRL(clt.irrfCents)}</span></div>
+        <div><span>Líquido anual</span><span>{formatBRL(clt.liquidoAnualCents)}</span></div>
+        <div><span>Custo para a empresa</span><span>{formatBRL(clt.custoEmpregadorMensalCents)}</span></div>
+      </div>
+    </div>
+    <div class={`bloco${resultado.veredito === 'PJ' ? ' destaque' : ''}`}>
+      <h3>PJ (Simples Nacional)</h3>
+      <div class="valor">{formatBRL(pj.liquidoMensalCents)}<small> /mês</small></div>
+      <div class="linhas">
+        <div><span>DAS ({formatPercent(pj.aliquotaEfetiva)})</span><span>- {formatBRL(pj.dasCents)}</span></div>
+        <div><span>Anexo</span><span>{pj.anexo} (fator R {formatPercent(pj.fatorR, 1)})</span></div>
+        <div><span>INSS do pró-labore</span><span>- {formatBRL(pj.inssProlaboreCents)}</span></div>
+        <div><span>IRRF do pró-labore</span><span>- {formatBRL(pj.irrfProlaboreCents)}</span></div>
+        <div><span>Despesas</span><span>- {formatBRL(pj.despesasMensaisCents)}</span></div>
+        <div><span>Líquido anual</span><span>{formatBRL(pj.liquidoAnualCents)}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>O que esse número significa</h2>
+  {
+    resultado.veredito === 'PJ' ? (
+      <p>
+        Nesta faixa, o PJ entrega <strong>{formatBRL(diferenca)}</strong> a mais por mês —
+        cerca de {formatBRL(resultado.diferencaAnualCents)} no ano. Isso acontece porque a
+        folha da PJ fica em {formatBRL(pj.folha12Cents / 12)} por mês ({formatPercent(pj.fatorR, 1)}
+        do faturamento), o que mantém a empresa no Anexo {pj.anexo} do Simples.
+      </p>
+    ) : (
+      <p>
+        Nesta faixa, o CLT entrega <strong>{formatBRL(diferenca)}</strong> a mais por mês.
+        Faturamento baixo faz o custo fixo da PJ (contador, DAS e INSS do pró-labore) pesar
+        mais do que os descontos da carteira assinada.
+      </p>
+    )
+  }
+  <p>
+    Para empatar com o líquido do CLT, o faturamento PJ precisaria ser de
+    <strong>{equivalente}</strong>. Esse ponto é o que decide a discussão: abaixo dele,
+    o CLT ganha; acima, o PJ começa a compensar.
+  </p>
+
+  <h2>Premissas desta simulação</h2>
+  <ul>
+    <li>Salário CLT e faturamento PJ com o mesmo valor bruto, sem benefícios adicionais.</li>
+    <li>Pró-labore de 28% do faturamento, o mínimo que costuma manter o fator R no Anexo III.</li>
+    <li>R$ 300 por mês de despesas da PJ (contador e taxas).</li>
+    <li>Sem dependentes, sem pensão e sem outra fonte de renda.</li>
+  </ul>
+  <p>
+    Os valores mudam se você tiver dependentes, benefícios, despesas maiores ou um CNAE
+    enquadrado em outro anexo. Use a
+    <a href={url('clt-pj/')}>calculadora completa</a> com os seus números.
+  </p>
+
+  <h2>Outras faixas</h2>
+  <ul>
+    {outrasFaixas.map((faixa) => (
+      <li>
+        <a href={url(`clt-pj/${faixa.slug}/`)}>CLT x PJ para {rotuloFaixa(faixa.salarioCents)}</a>
+      </li>
+    ))}
+  </ul>
+
+  <p class="aviso-legal">
+    Estimativa com parâmetros de 2026. Não substitui contador nem o cálculo oficial da folha.
+  </p>
+</Base>

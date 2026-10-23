@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import Oferta from '../components/Oferta.astro';
+import { url } from '../lib/urls';
+import { faixas, rotuloFaixa } from '../data/faixas';
 
 const faq = [
   {
@@ -107,6 +109,19 @@ const jsonLd = {
   </noscript>
 
   <Oferta />
+
+  <section>
+    <h2>Comparações por faixa</h2>
+    <ul>
+      {faixas.map((faixa) => (
+        <li>
+          <a href={url(`clt-pj/${faixa.slug}/`)}>
+            CLT x PJ para {rotuloFaixa(faixa.salarioCents)}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
 
   <section class="explicacao">
     <h2>Como o cálculo funciona</h2>

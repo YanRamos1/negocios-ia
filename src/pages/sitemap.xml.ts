@@ -1,0 +1,29 @@
+import type { APIRoute } from 'astro';
+import { base } from '../lib/urls';
+import { faixas } from '../data/faixas';
+
+export const GET: APIRoute = () => {
+  const site = (import.meta.env.SITE ?? 'http://localhost:4321').replace(/\/$/, '');
+
+  const rotas = [
+    '',
+    'clt-pj/',
+    'sobre/',
+    'privacidade/',
+    ...faixas.map((faixa) => `clt-pj/${faixa.slug}/`),
+  ];
+
+  const urls = rotas
+    .map((rota) => `  <url><loc>${site}${base}${rota}</loc></url>`)
+    .join('\n');
+
+  const corpo = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls}
+</urlset>
+`;
+
+  return new Response(corpo, {
+    headers: { 'Content-Type': 'application/xml; charset=utf-8' },
+  });
+};
