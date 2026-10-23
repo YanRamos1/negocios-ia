@@ -1,0 +1,32 @@
+# deps
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# build
+dist/
+build/
+.next/
+.astro/
+out/
+output/
+tmp/
+
+# segredos
+.env
+.env.*
+*.pem
+*.key
+secrets/
+
+# logs e lixo de SO
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# editores
+.idea/
+.vscode/
