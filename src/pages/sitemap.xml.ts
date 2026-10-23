@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { base } from '../lib/urls';
 import { faixas } from '../data/faixas';
+import { faixasImportacao } from '../data/faixas-importacao';
 
 export const GET: APIRoute = () => {
   const site = (import.meta.env.SITE ?? 'http://localhost:4321').replace(/\/$/, '');
@@ -12,6 +13,7 @@ export const GET: APIRoute = () => {
     'sobre/',
     'privacidade/',
     ...faixas.map((faixa) => `clt-pj/${faixa.slug}/`),
+    ...faixasImportacao.map((faixa) => `custo-importacao/${faixa.slug}/`),
   ];
 
   const urls = rotas

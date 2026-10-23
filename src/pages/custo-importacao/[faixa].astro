@@ -1,0 +1,145 @@
+---
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/urls';
+import {
+  calcularImportacao,
+  formatBRL,
+  formatPercent,
+} from '../../../ferramentas/custo-importacao/src/index';
+import {
+  COTACAO_REFERENCIA_CENTS,
+  faixasImportacao,
+  rotuloFaixaImportacao,
+} from '../../data/faixas-importacao';
+
+export function getStaticPaths() {
+  return faixasImportacao.map((faixa) => ({
+    params: { faixa: faixa.slug },
+    props: { usdCents: faixa.usdCents },
+  }));
+}
+
+interface Props {
+  usdCents: number;
+}
+
+const { usdCents } = Astro.props as Props;
+const rotulo = rotuloFaixaImportacao(usdCents);
+
+const entrada = {
+  produtoUsdCents: usdCents,
+  cotacaoCents: COTACAO_REFERENCIA_CENTS,
+  uf: 'SP',
+  iofPercentual: 0.035,
+};
+
+const comPrc = calcularImportacao({ ...entrada, remessaConforme: true });
+const semPrc = calcularImportacao({ ...entrada, remessaConforme: false });
+
+const outras = faixasImportacao.filter((faixa) => faixa.usdCents !== usdCents);
+---
+
+<Base
+  title={`Imposto de uma compra de ${rotulo}: quanto custa de verdade (2026)`}
+  description={`Simulação de ${rotulo} em compra internacional: imposto de importação, ICMS de São Paulo, IOF e custo final, com e sem Remessa Conforme.`}
+>
+  <nav aria-label="Trilha">
+    <p class="aviso-legal">
+      <a href={url('custo-importacao/')}>Custo de importação</a> › {rotulo}
+    </p>
+  </nav>
+
+  <h1>Compra de {rotulo}: quanto custa com os impostos</h1>
+  <p class="lead">
+    Simulação com cotação de referência de R$ 5,00, destino São Paulo (ICMS 17%) e IOF
+    de 3,5%. Regras de importação válidas desde 12/05/2026.
+  </p>
+
+  <table class="tabela">
+    <thead>
+      <tr><th>Item</th><th>Com Remessa Conforme</th><th>Site não certificado</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Valor aduaneiro</td>
+        <td>{formatBRL(comPrc.valorAduaneiroCents)}</td>
+        <td>{formatBRL(semPrc.valorAduaneiroCents)}</td>
+      </tr>
+      <tr>
+        <td>Imposto de importação</td>
+        <td>{formatBRL(comPrc.iiCents)}</td>
+        <td>{formatBRL(semPrc.iiCents)}</td>
+      </tr>
+      <tr>
+        <td>ICMS (17%)</td>
+        <td>{formatBRL(comPrc.icmsCents)}</td>
+        <td>{formatBRL(semPrc.icmsCents)}</td>
+      </tr>
+      <tr>
+        <td>IOF (3,5%)</td>
+        <td>{formatBRL(comPrc.iofCents)}</td>
+        <td>{formatBRL(semPrc.iofCents)}</td>
+      </tr>
+      <tr>
+        <td><strong>Total de impostos</strong></td>
+        <td><strong>{formatBRL(comPrc.totalImpostosCents)}</strong></td>
+        <td><strong>{formatBRL(semPrc.totalImpostosCents)}</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Custo final</strong></td>
+        <td><strong>{formatBRL(comPrc.custoFinalCents)}</strong></td>
+        <td><strong>{formatBRL(semPrc.custoFinalCents)}</strong></td>
+      </tr>
+      <tr>
+        <td>Peso dos impostos</td>
+        <td>{formatPercent(comPrc.percentualEfetivo, 1)}</td>
+        <td>{formatPercent(semPrc.percentualEfetivo, 1)}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>O que explica a diferença</h2>
+  {
+    comPrc.faixa === 'isento' ? (
+      <p>
+        Em {rotulo} a compra fica abaixo do limite de US$ 50. Em site certificado no Remessa
+        Conforme, o imposto de importação é <strong>zero</strong> — sobra apenas o ICMS
+        estadual, cobrado por dentro. No site não certificado, os 60% valem desde o primeiro
+        dólar.
+      </p>
+    ) : (
+      <p>
+        Acima de US$ 50, o site certificado paga 60% de imposto de importação com desconto
+        fixo de US$ 30 — o que, em {rotulo}, deixa o imposto federal em
+        {' '}<strong>{formatBRL(comPrc.iiCents)}</strong>. No site não certificado não há
+        desconto: são {formatBRL(semPrc.iiCents)} de imposto federal.
+      </p>
+    )
+  }
+  <p>
+    O ICMS é calculado "por dentro": a base inclui o próprio ICMS e o imposto de
+    importação. Por isso o valor efetivo é maior que a alíquota do estado.
+  </p>
+
+  <h2>Simular com os seus números</h2>
+  <p>
+    A cotação do dólar, o estado de destino e o valor do frete mudam o resultado. Use a
+    <a href={url('custo-importacao/')}>calculadora de importação</a> para informar esses
+    valores, ou veja outra faixa:
+  </p>
+  <ul>
+    {outras.map((faixa) => (
+      <li>
+        <a href={url(`custo-importacao/${faixa.slug}/`)}>
+          Compra de {rotuloFaixaImportacao(faixa.usdCents)}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <p class="aviso-legal">
+    Estimativa com cotação fixa de R$ 5,00 e ICMS de São Paulo. Benefícios estaduais de
+    diferimento ou crédito presumido não estão modelados. Não substitui o cálculo oficial
+    da Receita Federal.
+  </p>
+</Base>

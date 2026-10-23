@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Oferta from '../components/Oferta.astro';
 import { url } from '../lib/urls';
 import params from '../../ferramentas/custo-importacao/src/params-2026.json';
+import { faixasImportacao, rotuloFaixaImportacao } from '../data/faixas-importacao';
 
 const ufs = Object.entries(params.icmsPorUf as Record<string, number>).sort(([a], [b]) =>
   a.localeCompare(b),
@@ -125,6 +126,19 @@ const jsonLd = {
   </noscript>
 
   <Oferta />
+
+  <section>
+    <h2>Simulações por valor</h2>
+    <ul>
+      {faixasImportacao.map((faixa) => (
+        <li>
+          <a href={url(`custo-importacao/${faixa.slug}/`)}>
+            Compra de {rotuloFaixaImportacao(faixa.usdCents)}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
 
   <section class="explicacao">
     <h2>Como o imposto é calculado</h2>

@@ -39,7 +39,8 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 2026-10-23 | clt-pj | correção do link do índice (base sem barra) | 7d5b8f8 |
 | 2026-10-23 | clt-pj | F2: 5 páginas por faixa, sitemap e robots dinâmicos | 539aae4 |
 | 2026-10-23 | financeiro-pf-pj | F4: gerador da planilha + 7 testes com fórmulas avaliadas | 6ac200a |
-| 2026-10-23 | custo-importacao | calculadora com regras de 12/05/2026, 14 testes e smoke test | este commit |
+| 2026-10-23 | custo-importacao | calculadora com regras de 12/05/2026, 14 testes e smoke test | cc0cdde |
+| 2026-10-23 | custo-importacao | 6 simulações por valor (US$ 30 a 1.000) no sitemap | este commit |
 
 ## Decisões
 
