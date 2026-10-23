@@ -25,6 +25,11 @@ jobs:
           cache: npm
       - run: npm ci --include=dev
       - run: npm test
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install openpyxl formulas
+      - run: python -m unittest discover -s produtos/planilhas/financeiro-mei -p "test_*.py"
       - run: npm run build
         env:
           BASE_PATH: /negocios-ia

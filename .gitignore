@@ -12,6 +12,7 @@ build/
 .astro/
 out/
 output/
+produtos/planilhas/*/saida/
 tmp/
 
 # segredos
