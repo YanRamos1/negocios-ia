@@ -123,4 +123,21 @@ form.addEventListener('submit', (evento) => {
 });
 form.addEventListener('input', renderizar);
 
+const aplicarQuery = (): void => {
+  const params = new URLSearchParams(location.search);
+  const mapa: Record<string, HTMLInputElement | HTMLSelectElement> = {
+    s: salario,
+    adm: admissao,
+    des: desligamento,
+    fgts,
+    tipo,
+    aviso,
+  };
+  for (const [chave, campo] of Object.entries(mapa)) {
+    const valor = params.get(chave);
+    if (valor) campo.value = valor;
+  }
+};
+
+aplicarQuery();
 renderizar();

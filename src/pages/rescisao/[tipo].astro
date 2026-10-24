@@ -1,0 +1,144 @@
+---
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/urls';
+import { calcularRescisao, formatBRL, formatPercent } from '../../../ferramentas/rescisao/src/index';
+import { paginasRescisao } from '../../data/tipos-rescisao';
+
+export function getStaticPaths() {
+  return paginasRescisao.map((pagina) => ({
+    params: { tipo: pagina.slug },
+    props: { slug: pagina.slug, tipo: pagina.tipo, titulo: pagina.titulo, resumo: pagina.resumo },
+  }));
+}
+
+interface Props {
+  slug: string;
+  tipo: 'sem-justa-causa' | 'pedido-demissao' | 'justa-causa' | 'acordo';
+  titulo: string;
+  resumo: string;
+}
+
+const { slug, tipo, titulo, resumo } = Astro.props as Props;
+
+const cenario = {
+  salarioCents: 300000,
+  admissao: '2023-01-10',
+  desligamento: '2026-10-23',
+  fgtsCents: 1200000,
+};
+
+const resultado = calcularRescisao({ ...cenario, tipo });
+const outras = paginasRescisao.filter((pagina) => pagina.slug !== slug);
+
+const consulta = new URLSearchParams({
+  tipo,
+  s: '3.000,00',
+  adm: cenario.admissao,
+  des: cenario.desligamento,
+  fgts: '12.000,00',
+});
+---
+
+<Base
+  title={`${titulo}: quanto receber na rescisão (2026)`}
+  description={`${resumo} Veja o cálculo com exemplo numérico e as verbas de cada caso.`}
+>
+  <nav aria-label="Trilha">
+    <p class="aviso-legal"><a href={url('rescisao/')}>Rescisão</a> › {titulo}</p>
+  </nav>
+
+  <h1>{titulo}: quanto receber</h1>
+  <p class="lead">{resumo}</p>
+
+  <div class="grid-resultado">
+    <div class="bloco destaque">
+      <h3>Líquido no exemplo</h3>
+      <div class="valor">{formatBRL(resultado.liquidoCents)}</div>
+      <div class="linhas">
+        <div><span>Bruto</span><span>{formatBRL(resultado.totalBrutoCents)}</span></div>
+        <div><span>INSS</span><span>- {formatBRL(resultado.inssCents)}</span></div>
+        <div><span>IRRF</span><span>- {formatBRL(resultado.irrfCents)}</span></div>
+        <div><span>Desconto de aviso</span><span>- {formatBRL(resultado.descontoAvisoCents)}</span></div>
+      </div>
+    </div>
+    <div class="bloco">
+      <h3>Premissas do exemplo</h3>
+      <div class="linhas">
+        <div><span>Salário</span><span>{formatBRL(cenario.salarioCents)}</span></div>
+        <div><span>Admissão</span><span>10/01/2023</span></div>
+        <div><span>Desligamento</span><span>23/10/2026</span></div>
+        <div><span>Tempo de casa</span><span>{resultado.anosCompletos} anos</span></div>
+        <div><span>Dias de aviso</span><span>{resultado.diasAviso}</span></div>
+        <div><span>Multa do FGTS</span><span>{formatBRL(resultado.multaFgtsCents)}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Verbas deste tipo</h2>
+  <table class="tabela">
+    <thead><tr><th>Verba</th><th>Valor</th></tr></thead>
+    <tbody>
+      {resultado.verbas.map((verba) => (
+        <tr>
+          <td>{verba.rotulo}{verba.detalhe ? ` (${verba.detalhe})` : ''}</td>
+          <td>{formatBRL(verba.valorCents)}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2>O que muda neste caso</h2>
+  {
+    tipo === 'justa-causa' ? (
+      <p>
+        A justa causa corta quase tudo: não há 13º proporcional, férias proporcionais, aviso
+        prévio nem multa de 40%. Sobram o saldo de salário e as férias vencidas com terço.
+        Por isso o valor costuma ser uma fração do que seria na dispensa sem justa causa.
+      </p>
+    ) : tipo === 'acordo' ? (
+      <p>
+        No acordo do art. 484-A, o aviso indenizado é pago pela metade e a multa do FGTS cai
+        para 20%. Em troca, o trabalhador pode sacar até 80% do fundo, mas perde o direito ao
+        seguro-desemprego. As demais verbas seguem iguais às da dispensa sem justa causa.
+      </p>
+    ) : tipo === 'pedido-demissao' ? (
+      <p>
+        No pedido de demissão não existe multa do FGTS nem saque. O aviso de 30 dias é sempre
+        devido; se não for cumprido, a empresa pode descontar um salário. As férias e o 13º
+        proporcionais continuam sendo pagos.
+      </p>
+    ) : (
+      <p>
+        A dispensa sem justa causa é o caso mais completo: aviso prévio proporcional (30 dias
+        mais 3 por ano completo, até 90), 13º e férias proporcionais, férias vencidas e multa
+        de 40% sobre o saldo do FGTS. O aviso indenizado ainda projeta o contrato para férias
+        e 13º.
+      </p>
+    )
+  }
+  <p>
+    O percentual de descontos neste exemplo é de {formatPercent(
+      resultado.totalDescontosCents / Math.max(1, resultado.totalBrutoCents),
+      1,
+    )} do bruto.
+  </p>
+
+  <h2>Simule com os seus números</h2>
+  <p>
+    <a class="botao" href={url(`rescisao/?${consulta.toString()}`)}>
+      Abrir a calculadora com este caso
+    </a>
+  </p>
+
+  <h2>Outros tipos de desligamento</h2>
+  <ul>
+    {outras.map((pagina) => (
+      <li><a href={url(`rescisao/${pagina.slug}/`)}>{pagina.titulo}</a></li>
+    ))}
+  </ul>
+
+  <p class="aviso-legal">
+    Exemplo com salário de R$ 3.000,00, FGTS de R$ 12.000,00 e sem dependentes. Não inclui
+    horas extras, comissões, adicionais ou descontos de pensão.
+  </p>
+</Base>
