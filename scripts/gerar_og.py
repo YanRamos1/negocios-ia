@@ -24,6 +24,7 @@ ITENS: dict[str, tuple[str, str]] = {
     "precificacao-mei": ("Precificação para MEI", "Preço com margem real"),
     "taxa-marketplace": ("Taxa de marketplace", "Quanto sobra em cada canal"),
     "planilha-financeiro": ("Planilha Financeiro PF x PJ", "Controle e comparativo de 2026"),
+    "planilha-confeitaria": ("Planilha de Confeitaria", "Custo por receita e preço com margem"),
     "kit-financeiro": ("Kit Financeiro imprimível", "Seis folhas A4, download grátis"),
     "sobre": ("Sobre as calculadoras", "Parâmetros versionados e testados"),
     "privacidade": ("Privacidade", "Cálculo no navegador, sem cadastro"),

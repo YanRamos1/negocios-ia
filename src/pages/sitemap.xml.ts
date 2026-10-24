@@ -15,6 +15,7 @@ export const GET: APIRoute = () => {
     'precificacao-mei/',
     'taxa-marketplace/',
     'planilha-financeiro/',
+    'planilha-confeitaria/',
     'kit-financeiro/',
     'sobre/',
     'privacidade/',

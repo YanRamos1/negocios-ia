@@ -13,7 +13,7 @@ build/
 out/
 output/
 produtos/planilhas/*/saida/
-public/planilhas/*.xlsx
+public/planilhas/**/*.xlsx
 public/kit/*.pdf
 public/og/*.png
 tmp/

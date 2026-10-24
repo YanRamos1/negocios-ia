@@ -15,3 +15,10 @@ export const planilhaFinanceiro: Produto = {
   checkoutUrl: null,
   arquivoGratis: 'planilhas/financeiro-pf-pj-2026-gratis.xlsx',
 };
+
+export const planilhaConfeitaria: Produto = {
+  nome: 'Precificação de Confeitaria',
+  precoCents: 3700,
+  checkoutUrl: null,
+  arquivoGratis: 'planilhas/confeitaria/precificacao-confeitaria-2026-gratis.xlsx',
+};

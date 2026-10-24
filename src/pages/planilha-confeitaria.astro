@@ -1,0 +1,123 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/urls';
+import { planilhaConfeitaria } from '../config/produto';
+
+const abas = [
+  ['Config', 'Valor da hora, custos fixos, DAS, horas produtivas, taxa e margem.'],
+  ['Ingredientes', 'Preço da embalagem, quantidade que ela rende e custo por unidade.'],
+  ['Itens', 'Para cada receita, o ingrediente usado e a quantidade.'],
+  ['Receitas', 'Rendimento, horas de trabalho, embalagem e o preço sugerido por porção.'],
+  ['Resumo', 'Receitas cadastradas, custo médio, preço médio e margem agregada.'],
+];
+
+const exemplo = [
+  ['Custo dos ingredientes', 'R$ 21,25'],
+  ['Mão de obra (1,5 h × R$ 30)', 'R$ 45,00'],
+  ['Embalagem (30 × R$ 0,50)', 'R$ 15,00'],
+  ['Custo fixo rateado por hora', 'R$ 11,03'],
+  ['Custo total da receita', 'R$ 92,28'],
+  ['Custo por porção (30 un)', 'R$ 3,08'],
+  ['Preço sugerido (margem 30% + taxa 10%)', 'R$ 5,13'],
+  ['Lucro por porção', 'R$ 1,54'],
+];
+
+const faq = [
+  {
+    pergunta: 'Como o custo fixo é rateado?',
+    resposta:
+      'Por hora de trabalho: (custos fixos + DAS) ÷ horas produtivas do mês. Depois multiplica pelas horas da receita. Assim uma receita que leva 2 horas carrega mais custo fixo que uma de 30 minutos.',
+  },
+  {
+    pergunta: 'Preciso cadastrar todos os ingredientes?',
+    resposta:
+      'Só os que você usa. A planilha já vem com 10 ingredientes de exemplo e 60 linhas para itens de receita. Basta substituir.',
+  },
+  {
+    pergunta: 'E se eu vender em mais de um canal?',
+    resposta:
+      'A taxa do canal é uma só na Config. Para comparar canais, use a calculadora de taxa de marketplace e depois volte com a taxa escolhida.',
+  },
+  {
+    pergunta: 'Funciona no Google Sheets?',
+    resposta:
+      'Sim. O arquivo é .xlsx com fórmulas nativas (SUMIFS, VLOOKUP, SUMPRODUCT) e abre sem conversão.',
+  },
+];
+---
+
+<Base
+  title="Planilha de precificação de confeitaria 2026"
+  description="Custo por ingrediente, ficha técnica por receita e preço com margem real. Inclui versão gratuita para baixar."
+  ogImage="og/planilha-confeitaria.png"
+>
+  <h1>Precificação de confeitaria</h1>
+  <p class="lead">
+    Descubra o custo real de cada receita e o preço que entrega a margem que você quer —
+    sem esquecer mão de obra, embalagem, custo fixo e taxa do canal.
+  </p>
+
+  <div class="card">
+    <h2 style="margin-top:0">Baixe a versão gratuita</h2>
+    <p>
+      Inclui a Config e a tabela de ingredientes com custo por unidade. Sem cadastro.
+    </p>
+    <p>
+      <a class="botao" href={url(planilhaConfeitaria.arquivoGratis)} download>
+        Baixar planilha (.xlsx)
+      </a>
+    </p>
+    {
+      planilhaConfeitaria.checkoutUrl ? (
+        <p>
+          <a class="botao botao-secundario" href={planilhaConfeitaria.checkoutUrl} rel="noopener">
+            Comprar versão completa
+          </a>
+        </p>
+      ) : (
+        <p class="aviso-legal">
+          A versão completa (Itens, Receitas e Resumo) está em preparo. A gratuita já calcula
+          o custo unitário de cada ingrediente.
+        </p>
+      )
+    }
+  </div>
+
+  <h2>O que tem dentro</h2>
+  <ul class="lista-ferramentas">
+    {abas.map(([nome, descricao]) => (
+      <li>
+        <strong>{nome}</strong>
+        <p>{descricao}</p>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Exemplo: brigadeiro gourmet</h2>
+  <p>
+    Receita com 30 porções, 1,5 hora de trabalho e os custos padrão da planilha.
+  </p>
+  <table class="tabela">
+    <thead><tr><th>Item</th><th>Valor</th></tr></thead>
+    <tbody>
+      {exemplo.map(([item, valor]) => (
+        <tr><td>{item}</td><td>{valor}</td></tr>
+      ))}
+    </tbody>
+  </table>
+
+  <section class="faq">
+    <h2>Perguntas frequentes</h2>
+    {faq.map((item) => (
+      <details>
+        <summary>{item.pergunta}</summary>
+        <p>{item.resposta}</p>
+      </details>
+    ))}
+  </section>
+
+  <p>
+    Quer comparar canais de venda?
+    <a href={url('taxa-marketplace/')}>Use a calculadora de taxa de marketplace</a>.
+  </p>
+</Base>
