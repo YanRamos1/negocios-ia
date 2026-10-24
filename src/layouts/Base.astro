@@ -29,16 +29,18 @@ import '../styles/global.css';
     <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
   </head>
   <body>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
     <header class="topo">
       <a class="marca" href={home}>calculadoras<span>.br</span></a>
       <nav aria-label="Principal">
-        <a href={url('clt-pj/')}>CLT x PJ</a>
-        <a href={url('custo-importacao/')}>Importação</a>
-        <a href={url('sobre/')}>Sobre</a>
+        <a href={url('clt-pj/')} aria-current={Astro.url.pathname.includes('clt-pj') ? 'page' : undefined}>CLT x PJ</a>
+        <a href={url('custo-importacao/')} aria-current={Astro.url.pathname.includes('custo-importacao') ? 'page' : undefined}>Importação</a>
+        <a href={url('rescisao/')} aria-current={Astro.url.pathname.includes('rescisao') ? 'page' : undefined}>Rescisão</a>
+        <a href={url('sobre/')} aria-current={Astro.url.pathname.includes('sobre') ? 'page' : undefined}>Sobre</a>
       </nav>
     </header>
 
-    <main class="wrap">
+    <main class="wrap" id="conteudo" tabindex="-1">
       <slot />
     </main>
 

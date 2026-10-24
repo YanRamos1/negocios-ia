@@ -50,6 +50,32 @@ body {
 .topo nav {
   display: flex;
   gap: 16px;
+  flex-wrap: wrap;
+}
+
+.topo nav a[aria-current="page"] {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.pular {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  background: #fff;
+  color: var(--accent);
+  padding: 10px 14px;
+  border-radius: 8px;
+  z-index: 20;
+  font-weight: 600;
+}
+
+.pular:focus {
+  left: 12px;
+}
+
+main:focus {
+  outline: none;
 }
 
 .topo nav a {

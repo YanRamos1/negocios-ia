@@ -29,6 +29,7 @@ _infra/           base compartilhada: layout, SEO, analytics, deploy
 
 ```
 npm install --include=dev
+npm run typecheck
 npm test
 npm run dev
 npm run build

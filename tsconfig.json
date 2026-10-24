@@ -2,12 +2,8 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "resolveJsonModule": true,
-    "allowJs": true,
-    "baseUrl": ".",
-    "paths": {
-      "@calc/*": ["ferramentas/clt-pj/src/*"]
-    }
+    "allowJs": true
   },
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "exclude": ["dist", "node_modules", "test-results"]
 }

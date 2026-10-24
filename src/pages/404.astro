@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/urls';
+---
+
+<Base
+  title="Página não encontrada"
+  description="A página que você procurou não existe. Veja as calculadoras disponíveis."
+  noindex
+>
+  <h1>Página não encontrada</h1>
+  <p class="lead">
+    O endereço pode ter mudado ou o link estar errado. As calculadoras continuam aqui:
+  </p>
+
+  <ul class="lista-ferramentas">
+    <li>
+      <a href={url('clt-pj/')}>CLT x PJ</a>
+      <p>Compara o líquido mensal e anual entre carteira assinada e PJ.</p>
+    </li>
+    <li>
+      <a href={url('custo-importacao/')}>Custo de importação</a>
+      <p>Imposto de importação, ICMS por estado e IOF.</p>
+    </li>
+    <li>
+      <a href={url('rescisao/')}>Rescisão trabalhista</a>
+      <p>Verbas rescisórias por tipo de desligamento.</p>
+    </li>
+    <li>
+      <a href={url('precificacao-mei/')}>Precificação para MEI</a>
+      <p>Preço de venda com custo, taxa e margem.</p>
+    </li>
+    <li>
+      <a href={url('taxa-marketplace/')}>Taxa de marketplace</a>
+      <p>Quanto sobra da venda em cada canal.</p>
+    </li>
+    <li>
+      <a href={url('planilha-financeiro/')}>Planilha Financeiro PF x PJ</a>
+      <p>Controle financeiro com versão gratuita para baixar.</p>
+    </li>
+  </ul>
+
+  <p><a class="botao" href={url('')}>Ir para a página inicial</a></p>
+</Base>
