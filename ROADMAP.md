@@ -1,5 +1,20 @@
 # Roadmap — primeira saída
 
+## Status em 2026-10-23
+
+| Fase | Situação | Observação |
+|---|---|---|
+| F0 Fundação | concluída | Astro, testes, deploy no GitHub Pages |
+| F1 Motor CLT x PJ | concluída | 27 testes; parâmetros 2026 com fonte |
+| F2 Publicação | concluída | 11 páginas de cauda longa, sitemap, robots |
+| F3 Monetização | parcial | camada pronta e desligada; falta link de afiliado e provedor de e-mail |
+| F4 Produto pago | parcial | duas planilhas geradas e versões gratuitas no ar; falta checkout |
+| F5 Isca | concluída | kit em PDF por código (sem SD), ligado nas calculadoras e com OG images |
+| F6 Decisão | bloqueada | depende de tráfego e vendas reais |
+
+Extras entregues fora do roadmap original: rescisão, precificação MEI, taxa de marketplace,
+páginas por tipo de desligamento e por nicho, typecheck e 32 testes e2e no CI.
+
 ## Veredito
 
 **Começar pela calculadora CLT x PJ**, monetizada por afiliado de contabilidade +
