@@ -14,6 +14,7 @@ export const GET: APIRoute = () => {
     'precificacao-mei/',
     'taxa-marketplace/',
     'planilha-financeiro/',
+    'kit-financeiro/',
     'sobre/',
     'privacidade/',
     ...faixas.map((faixa) => `clt-pj/${faixa.slug}/`),

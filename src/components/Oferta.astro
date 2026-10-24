@@ -1,5 +1,12 @@
 ---
+import { url } from '../lib/urls';
 import { afiliadoPrincipal, capturaLead, avisoAfiliado } from '../config/monetizacao';
+
+const link = (destino: string): string =>
+  destino.startsWith('/') ? url(destino.replace(/^\//, '')) : destino;
+
+const hrefAfiliado = afiliadoPrincipal ? link(afiliadoPrincipal.url) : '';
+const hrefLead = capturaLead ? link(capturaLead.url) : '';
 ---
 
 {
@@ -10,7 +17,7 @@ import { afiliadoPrincipal, capturaLead, avisoAfiliado } from '../config/monetiz
         <p>{afiliadoPrincipal.texto}</p>
         {afiliadoPrincipal.aviso && <p class="oferta-aviso">{afiliadoPrincipal.aviso}</p>}
       </div>
-      <a class="botao" href={afiliadoPrincipal.url} rel="sponsored noopener" target="_blank">
+      <a class="botao" href={hrefAfiliado} rel="sponsored noopener" target="_blank">
         {afiliadoPrincipal.cta}
       </a>
     </aside>
@@ -24,7 +31,7 @@ import { afiliadoPrincipal, capturaLead, avisoAfiliado } from '../config/monetiz
         <strong>{capturaLead.titulo}</strong>
         <p>{capturaLead.texto}</p>
       </div>
-      <a class="botao botao-secundario" href={capturaLead.url} rel="noopener">
+      <a class="botao botao-secundario" href={hrefLead}>
         {capturaLead.cta}
       </a>
     </aside>

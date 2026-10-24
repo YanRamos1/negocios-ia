@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/urls';
+
+const itens = [
+  ['Capa e instruções', 'Como usar o kit em cinco passos.'],
+  ['Orçamento mensal', 'Dez categorias com previsto, realizado e diferença.'],
+  ['Controle de dívidas', 'Credor, saldo, juros, parcela e data de quitação.'],
+  ['Metas de economia', 'Três metas com 30 quadradinhos para pintar.'],
+  ['Registro de despesas', '24 linhas para o dia a dia, com categoria.'],
+  ['Checklist do mês', 'Doze verificações para fechar o mês sem esquecer nada.'],
+];
+
+const faq = [
+  {
+    pergunta: 'Preciso me cadastrar?',
+    resposta: 'Não. O download é direto, sem e-mail e sem login.',
+  },
+  {
+    pergunta: 'Serve para MEI e PJ?',
+    resposta:
+      'Sim. O checklist inclui reserva de imposto e notas fiscais, e o orçamento separa dívidas, impostos e investimentos.',
+  },
+  {
+    pergunta: 'Posso imprimir em preto e branco?',
+    resposta: 'Sim. As linhas são cinza-claro e funcionam bem em impressora comum.',
+  },
+  {
+    pergunta: 'Qual o tamanho da folha?',
+    resposta: 'A4. Se for imprimir em Letter, use "ajustar à página" na impressão.',
+  },
+];
+---
+
+<Base
+  title="Kit Financeiro 2026: planner imprimível grátis"
+  description="Seis folhas A4 para orçamento, dívidas, metas e despesas. Download gratuito, sem cadastro."
+  ogImage="og/kit-financeiro.png"
+>
+  <h1>Kit Financeiro imprimível</h1>
+  <p class="lead">
+    Seis folhas A4 para organizar o mês no papel: orçamento, dívidas, metas, despesas e
+    checklist. Gratuito e sem cadastro.
+  </p>
+
+  <div class="card">
+    <p>
+      <a class="botao" href={url('kit/kit-financeiro-2026.pdf')} download>Baixar o kit (PDF)</a>
+    </p>
+    <p class="aviso-legal">Seis páginas em A4, cerca de 5 KB, gerado em PDF vetorial.</p>
+  </div>
+
+  <h2>O que vem dentro</h2>
+  <ul class="lista-ferramentas">
+    {itens.map(([nome, descricao]) => (
+      <li>
+        <strong>{nome}</strong>
+        <p>{descricao}</p>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Como usar</h2>
+  <p>
+    Imprima uma vez e repita todo mês. O orçamento vem primeiro: sem saber quanto entra e
+    quanto sai, meta e dívida viram chute. Se preferir o controle automático, use a
+    <a href={url('planilha-financeiro/')}>planilha Financeiro PF x PJ</a>.
+  </p>
+
+  <section class="faq">
+    <h2>Perguntas frequentes</h2>
+    {faq.map((item) => (
+      <details>
+        <summary>{item.pergunta}</summary>
+        <p>{item.resposta}</p>
+      </details>
+    ))}
+  </section>
+</Base>

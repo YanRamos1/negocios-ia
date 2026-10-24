@@ -26,6 +26,7 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 14 | Templates Notion | `produtos/notion-templates` | planejado | P3 | venda R$19–39 | escolher 2 primeiros |
 | 15 | Livros ilustrados | `livros-ilustrados` | planejado | P3 | venda PDF R$19–37 | pipeline de layout 300 DPI |
 | 16 | Infra compartilhada | `_infra` | em andamento | P0 | — | sitemap e segunda ferramenta |
+| 17 | Kit Financeiro (isca) | `produtos/printables` | publicado | P1 | isca/download | divulgar nas redes |
 
 ## Log
 
@@ -46,7 +47,9 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 2026-10-23 | taxa-marketplace | comparação de 3 canais com preço mínimo, 7 testes | f3611e3 |
 | 2026-10-23 | planilha | landing com download da versão gratuita gerada no CI | 691dd5e |
 | 2026-10-23 | workspace | suíte e2e Playwright (17 testes) rodando no CI | f0c043a |
-| 2026-10-23 | workspace | typecheck no CI, página 404 e acessibilidade básica | este commit |
+| 2026-10-23 | workspace | typecheck no CI, página 404 e acessibilidade básica | 9551a58 |
+| 2026-10-23 | kit | F5: kit imprimível em PDF, landing e isca nas calculadoras | este commit |
+| 2026-10-23 | workspace | imagens de compartilhamento (OG 1200x630) por página | este commit |
 
 ## Decisões
 

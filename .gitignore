@@ -14,6 +14,8 @@ out/
 output/
 produtos/planilhas/*/saida/
 public/planilhas/*.xlsx
+public/kit/*.pdf
+public/og/*.png
 tmp/
 test-results/
 playwright-report/

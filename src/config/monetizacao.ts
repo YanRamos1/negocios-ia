@@ -20,9 +20,15 @@ export interface CapturaLead {
 export const afiliadoPrincipal: OfertaAfiliado | null = null;
 
 /**
- * Isca/lead: link de captura (WhatsApp, formulário ou landing do parceiro).
+ * Isca gratuita exibida abaixo do resultado das calculadoras.
+ * URL interna (começando com /) recebe o prefixo do site automaticamente.
  */
-export const capturaLead: CapturaLead | null = null;
+export const capturaLead: CapturaLead = {
+  titulo: 'Kit Financeiro imprimível',
+  texto: 'Seis folhas A4 para orçamento, dívidas, metas e despesas. Grátis, sem cadastro.',
+  cta: 'Baixar o kit',
+  url: '/kit-financeiro/',
+};
 
 export const avisoAfiliado =
   'Este site pode receber comissão por indicação. O valor para você não muda.';
