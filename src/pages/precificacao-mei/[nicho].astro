@@ -1,0 +1,114 @@
+---
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/urls';
+import { calcularPreco, formatBRL, formatPercent } from '../../../ferramentas/precificacao-mei/src/index';
+import { nichos, reais } from '../../data/nichos-precificacao';
+
+export function getStaticPaths() {
+  return nichos.map((nicho) => ({ params: { nicho: nicho.slug }, props: { nicho } }));
+}
+
+interface Props {
+  nicho: (typeof nichos)[number];
+}
+
+const { nicho } = Astro.props as Props;
+
+const resultado = calcularPreco({
+  materialCents: nicho.materialCents,
+  horasPorPeca: nicho.horasPorPeca,
+  valorHoraCents: nicho.valorHoraCents,
+  embalagemCents: nicho.embalagemCents,
+  custosFixosCents: nicho.custosFixosCents,
+  dasCents: nicho.dasCents,
+  pecasMes: nicho.pecasMes,
+  taxaVenda: nicho.taxaVenda,
+  margemDesejada: nicho.margemDesejada,
+});
+
+const consulta = new URLSearchParams({
+  m: reais(nicho.materialCents),
+  h: String(nicho.horasPorPeca).replace('.', ','),
+  vh: reais(nicho.valorHoraCents),
+  e: reais(nicho.embalagemCents),
+  f: reais(nicho.custosFixosCents),
+  d: reais(nicho.dasCents),
+  p: String(nicho.pecasMes),
+  t: String(Math.round(nicho.taxaVenda * 100)),
+  mg: String(Math.round(nicho.margemDesejada * 100)),
+});
+
+const outros = nichos.filter((item) => item.slug !== nicho.slug);
+---
+
+<Base
+  title={`Precificação de ${nicho.nome.toLowerCase()}: quanto cobrar em 2026`}
+  description={`Cálculo de preço para ${nicho.nome.toLowerCase()} com material, mão de obra, custo fixo, DAS e taxa do canal. Exemplo numérico completo.`}
+  ogImage="og/precificacao-mei.png"
+>
+  <nav aria-label="Trilha">
+    <p class="aviso-legal">
+      <a href={url('precificacao-mei/')}>Precificação</a> › {nicho.nome}
+    </p>
+  </nav>
+
+  <h1>Quanto cobrar em {nicho.nome.toLowerCase()}</h1>
+  <p class="lead">{nicho.descricao} {nicho.detalhe}</p>
+
+  <div class="grid-resultado">
+    <div class="bloco destaque">
+      <h3>Preço sugerido</h3>
+      <div class="valor">{formatBRL(resultado.precoSugeridoCents)}</div>
+      <div class="linhas">
+        <div><span>Custo total por peça</span><span>{formatBRL(resultado.custoTotalCents)}</span></div>
+        <div><span>Taxa do canal</span><span>- {formatBRL(resultado.taxaVendaCents)}</span></div>
+        <div><span>Lucro por peça</span><span>{formatBRL(resultado.lucroCents)}</span></div>
+        <div><span>Margem efetiva</span><span>{formatPercent(resultado.margemEfetiva, 1)}</span></div>
+        <div><span>Markup</span><span>{resultado.markup.toFixed(2)}x</span></div>
+      </div>
+    </div>
+    <div class="bloco">
+      <h3>De onde vem o custo</h3>
+      <div class="linhas">
+        <div><span>Material</span><span>{formatBRL(resultado.custoMaterialCents)}</span></div>
+        <div><span>Mão de obra</span><span>{formatBRL(resultado.custoMaoObraCents)}</span></div>
+        <div><span>Embalagem</span><span>{formatBRL(resultado.custoEmbalagemCents)}</span></div>
+        <div><span>Custo fixo rateado</span><span>{formatBRL(resultado.custoFixoRateadoCents)}</span></div>
+        <div><span>Peças para empatar</span><span>{resultado.pontoEquilibrioPecas}/mês</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Premissas deste exemplo</h2>
+  <table class="tabela">
+    <tbody>
+      <tr><td>Material por peça</td><td>{formatBRL(nicho.materialCents)}</td></tr>
+      <tr><td>Horas por peça</td><td>{String(nicho.horasPorPeca).replace('.', ',')} h</td></tr>
+      <tr><td>Valor da hora</td><td>{formatBRL(nicho.valorHoraCents)}</td></tr>
+      <tr><td>Embalagem e frete</td><td>{formatBRL(nicho.embalagemCents)}</td></tr>
+      <tr><td>Custos fixos + DAS</td><td>{formatBRL(nicho.custosFixosCents + nicho.dasCents)}</td></tr>
+      <tr><td>Peças por mês</td><td>{nicho.pecasMes}</td></tr>
+      <tr><td>Taxa do canal</td><td>{formatPercent(nicho.taxaVenda, 0)}</td></tr>
+      <tr><td>Margem desejada</td><td>{formatPercent(nicho.margemDesejada, 0)}</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Simule com os seus números</h2>
+  <p>
+    <a class="botao" href={url(`precificacao-mei/?${consulta.toString()}`)}>
+      Abrir a calculadora com este exemplo
+    </a>
+  </p>
+
+  <h2>Outros nichos</h2>
+  <ul>
+    {outros.map((item) => (
+      <li><a href={url(`precificacao-mei/${item.slug}/`)}>Precificação de {item.nome.toLowerCase()}</a></li>
+    ))}
+  </ul>
+
+  <p class="aviso-legal">
+    Exemplo com valores de referência. Ajuste material, tempo e taxa do seu canal antes de
+    usar o preço.
+  </p>
+</Base>

@@ -14,7 +14,7 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 2 | Financeiro PF/PJ (planilha) | `produtos/planilhas/financeiro-mei` | em andamento | P0 | venda R$27–47 | versão gratuita no ar; falta checkout |
 | 3 | Custo de importação | `ferramentas/custo-importacao` | publicado | P1 | afiliado redirecionador | páginas por produto/faixa |
 | 4 | Taxa de marketplace | `ferramentas/taxa-marketplace` | publicado | P1 | afiliado ERP/frete | presets por canal com fonte oficial |
-| 5 | Precificação MEI/artesão | `ferramentas/precificacao-mei` | publicado | P1 | funil p/ planilha | páginas por nicho (confeitaria, artesanato) |
+| 5 | Precificação MEI/artesão | `ferramentas/precificacao-mei` | publicado | P1 | funil p/ planilha | medir e divulgar |
 | 6 | Precificação confeitaria (planilha) | `produtos/planilhas/precificacao-confeitaria` | em andamento | P1 | venda R$27–47 | versão gratuita no ar; falta checkout |
 | 7 | Rescisão trabalhista | `ferramentas/rescisao` | publicado | P2 | afiliado advocacia/contab. | medir e divulgar |
 | 8 | Fluxo de caixa + DRE | `produtos/planilhas/fluxo-caixa-dre` | planejado | P2 | venda R$37–57 | modelo de categorias |
@@ -51,7 +51,8 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 2026-10-23 | kit | F5: kit imprimível em PDF, landing e isca nas calculadoras | este commit |
 | 2026-10-23 | workspace | imagens de compartilhamento (OG 1200x630) por página | a768cec |
 | 2026-10-23 | rescisao | 4 páginas por tipo + calculadora pré-preenchida | a5cf605 |
-| 2026-10-23 | confeitaria | gerador com 10 testes de fórmula, landing e download gratuito | este commit |
+| 2026-10-23 | confeitaria | gerador com 10 testes de fórmula, landing e download gratuito | b42307a |
+| 2026-10-23 | precificacao-mei | 4 páginas por nicho + calculadora pré-preenchida | este commit |
 
 ## Decisões
 

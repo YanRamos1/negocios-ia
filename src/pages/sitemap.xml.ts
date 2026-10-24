@@ -3,6 +3,7 @@ import { base } from '../lib/urls';
 import { faixas } from '../data/faixas';
 import { faixasImportacao } from '../data/faixas-importacao';
 import { paginasRescisao } from '../data/tipos-rescisao';
+import { nichos } from '../data/nichos-precificacao';
 
 export const GET: APIRoute = () => {
   const site = (import.meta.env.SITE ?? 'http://localhost:4321').replace(/\/$/, '');
@@ -22,6 +23,7 @@ export const GET: APIRoute = () => {
     ...faixas.map((faixa) => `clt-pj/${faixa.slug}/`),
     ...faixasImportacao.map((faixa) => `custo-importacao/${faixa.slug}/`),
     ...paginasRescisao.map((pagina) => `rescisao/${pagina.slug}/`),
+    ...nichos.map((nicho) => `precificacao-mei/${nicho.slug}/`),
   ];
 
   const urls = rotas

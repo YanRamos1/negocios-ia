@@ -95,4 +95,24 @@ form.addEventListener('submit', (evento) => {
 });
 form.addEventListener('input', renderizar);
 
+const aplicarQuery = (): void => {
+  const params = new URLSearchParams(location.search);
+  const mapa: Record<string, HTMLInputElement> = {
+    m: material,
+    h: horas,
+    vh: valorHora,
+    e: embalagem,
+    f: fixos,
+    d: das,
+    p: pecas,
+    t: taxa,
+    mg: margem,
+  };
+  for (const [chave, campo] of Object.entries(mapa)) {
+    const valor = params.get(chave);
+    if (valor) campo.value = valor;
+  }
+};
+
+aplicarQuery();
 renderizar();
