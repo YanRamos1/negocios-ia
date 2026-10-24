@@ -15,6 +15,20 @@
 Extras entregues fora do roadmap original: rescisão, precificação MEI, taxa de marketplace,
 páginas por tipo de desligamento e por nicho, typecheck e 32 testes e2e no CI.
 
+## Nova trilha — serviços (a partir de 2026-10-23)
+
+O produto digital (calculadoras, planilhas, kit) passa a ser **portfólio e isca**, não o
+centro da receita. A receita principal migra para projeto e prestação de serviço em
+**engenharia com IA** e **segurança de IA/aplicações**.
+
+- Posicionamento, ICP e preços: `servicos/POSICIONAMENTO.md`
+- Ofertas: `servicos/ofertas/`
+- Comercial: `servicos/comercial/PLAYBOOK.md`
+
+Próximo entregável técnico da trilha: **CLI de segurança para aplicações com LLM**, usada
+como isca gratuita e prova de competência antes do diagnóstico pago.
+
+
 ## Veredito
 
 **Começar pela calculadora CLT x PJ**, monetizada por afiliado de contabilidade +

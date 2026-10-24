@@ -28,6 +28,17 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 16 | Infra compartilhada | `_infra` | em andamento | P0 | — | sitemap e segunda ferramenta |
 | 17 | Kit Financeiro (isca) | `produtos/printables` | publicado | P1 | isca/download | divulgar nas redes |
 
+## Serviços (engenharia com IA e segurança)
+
+| Oferta | Pasta | Status | Preço | Próximo passo |
+|---|---|---|---|---|
+| Diagnóstico de IA | `servicos/ofertas/diagnostico-ia.md` | spec | R$ 6–12 mil | isca técnica que gera lead |
+| Agente em produção | `servicos/ofertas/agente-em-producao.md` | spec | R$ 35–90 mil | estudo de caso + eval kit |
+| Segurança de IA e apps | `servicos/ofertas/seguranca-de-ia.md` | spec | R$ 18–45 mil | CLI de varredura como isca |
+
+Posicionamento e funil em [`servicos/POSICIONAMENTO.md`](./servicos/POSICIONAMENTO.md).
+Qualificação, proposta e follow-up em [`servicos/comercial/PLAYBOOK.md`](./servicos/comercial/PLAYBOOK.md).
+
 ## Log
 
 | Data | Projeto | O que foi feito | Commit |
@@ -52,7 +63,8 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 | 2026-10-23 | workspace | imagens de compartilhamento (OG 1200x630) por página | a768cec |
 | 2026-10-23 | rescisao | 4 páginas por tipo + calculadora pré-preenchida | a5cf605 |
 | 2026-10-23 | confeitaria | gerador com 10 testes de fórmula, landing e download gratuito | b42307a |
-| 2026-10-23 | precificacao-mei | 4 páginas por nicho + calculadora pré-preenchida | este commit |
+| 2026-10-23 | precificacao-mei | 4 páginas por nicho + calculadora pré-preenchida | 026941e |
+| 2026-10-23 | servicos | vertical de serviços: posicionamento, 3 ofertas e playbook | este commit |
 
 ## Decisões
 
