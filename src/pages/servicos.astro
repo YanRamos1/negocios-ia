@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Contato from '../components/Contato.astro';
 import { url } from '../lib/urls';
+import { autor } from '../config/autor';
 
 const categorias = [
   {
@@ -44,28 +45,85 @@ const passos = [
   ['Entrega', 'PDF, issues e sessão de leitura com o time técnico.'],
 ];
 
+const selos = [
+  'Evidência linha a linha',
+  'Escopo assinado',
+  'NDA quando necessário',
+  'Sem teste em produção',
+  'Achado crítico em 24h',
+];
+
+const referencias = [
+  [
+    'OWASP Top 10 (2021)',
+    'Riscos de aplicação usados como base das categorias 2, 3 e 5.',
+    'https://owasp.org/Top10/',
+  ],
+  [
+    'OWASP ASVS 4.0.3',
+    'Verificação de autenticação, autorização, sessão e validação de entrada.',
+    'https://owasp.org/www-project-application-security-verification-standard/',
+  ],
+  [
+    'OWASP Top 10 para LLM',
+    'Prompt injection, vazamento de dado sensível e uso excessivo de agência.',
+    'https://genai.owasp.org/llm-top-10/',
+  ],
+  [
+    'CWE Top 25',
+    'Classificação das fraquezas de software mais perigosas.',
+    'https://cwe.mitre.org/top25/',
+  ],
+  [
+    'LGPD, arts. 46 a 48',
+    'Segurança, sigilo e comunicação de incidente.',
+    'https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm',
+  ],
+];
+
 const faq = [
+  {
+    pergunta: 'Como sei que não é um relatório genérico?',
+    resposta:
+      'O relatório registra o commit auditado, lista os arquivos e rotas revisados e traz, para cada achado, o trecho exato com arquivo e linha. A seção de pontos fortes mostra o que foi verificado e está correto. Tudo é reproduzível no seu repositório.',
+  },
+  {
+    pergunta: 'E se não houver achado crítico?',
+    resposta:
+      'O relatório diz isso com a cobertura demonstrada. Não inventamos achado para justificar o valor — a evidência de cobertura é o entregável.',
+  },
+  {
+    pergunta: 'Vocês assinam NDA?',
+    resposta:
+      'Sim. Também exigimos autorização escrita antes de qualquer análise e não executamos teste ativo em produção.',
+  },
   {
     pergunta: 'Quanto tempo leva?',
     resposta:
-      'Depende do tamanho do repositório e do escopo. O relatório é entregue com a lista de arquivos revisados, então você sabe exatamente o que foi coberto.',
-  },
-  {
-    pergunta: 'Vocês testam em produção?',
-    resposta:
-      'Não. A auditoria é de código e configuração. Teste ativo só com autorização escrita e escopo delimitado, em ambiente acordado.',
-  },
-  {
-    pergunta: 'E se a categoria não se aplicar?',
-    resposta:
-      'Dizemos isso explicitamente no relatório. Projeto sem frontend não recebe achado de XSS forçado, por exemplo.',
+      'Depende do tamanho do repositório e do escopo. O prazo é fechado na proposta, com marcos — não por hora.',
   },
   {
     pergunta: 'O relatório serve para auditoria ou cliente corporativo?',
     resposta:
       'Foi desenhado para isso: evidência reproduzível, severidade justificada e correção sugerida. Não substitui certificação formal.',
   },
+  {
+    pergunta: 'E se a categoria não se aplicar?',
+    resposta:
+      'Dizemos isso explicitamente no relatório. Projeto sem frontend não recebe achado de XSS forçado, por exemplo.',
+  },
 ];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Auditoria de segurança de aplicações e IA',
+  description:
+    'Auditoria de código em cinco categorias: isolamento de dados, permissão no servidor, IDOR, segredos expostos e XSS. Relatório em PDF com evidência linha a linha e issues prontas.',
+  areaServed: 'BR',
+  serviceType: 'Auditoria de segurança de aplicações',
+  mainEntityOfPage: 'https://yanramos1.github.io/negocios-ia/servicos/',
+};
 ---
 
 <Base
@@ -80,12 +138,28 @@ const faq = [
     evidência linha a linha e issues prontas para o time corrigir.
   </p>
 
+  <ul class="selos">
+    {selos.map((selo) => <li class="selo">{selo}</li>)}
+  </ul>
+
   <p>
     <a class="botao" href={url('auditoria/relatorio-exemplo.pdf')} download>
       Ver relatório de exemplo (PDF)
     </a>
   </p>
   <Contato />
+
+  <h2>Amostra do relatório</h2>
+  <div class="card">
+    <p class="aviso-legal">Trecho do relatório de exemplo — dados fictícios, para mostrar o formato.</p>
+    <p><span class="chip chip-critica">CRÍTICA</span> <strong>IDOR</strong> · <code>src/routes/invoices.js:22</code></p>
+    <pre class="codigo-amostra"><code>const invoice = await db('invoices').where(&#123; id: req.params.id &#125;).first();</code></pre>
+    <p>
+      A busca usa apenas o ID do path. Não há verificação de posse nem filtro por tenant, então
+      trocar o número sequencial expõe faturas alheias. Correção: filtrar por tenant e dono na
+      consulta e retornar 404 em vez de 403.
+    </p>
+  </div>
 
   <h2>O que é verificado</h2>
   <ul class="lista-ferramentas">
@@ -107,6 +181,31 @@ const faq = [
     ))}
   </ul>
 
+  <h2>Como o trabalho é verificável</h2>
+  <ul>
+    <li><strong>Commit registrado.</strong> O relatório aponta o hash auditado — você sabe exatamente qual código foi lido.</li>
+    <li><strong>Cobertura declarada.</strong> Arquivos e rotas revisados aparecem listados, com a seção de pontos fortes.</li>
+    <li><strong>Achado reproduzível.</strong> Cada item tem arquivo, linha, trecho e caminho de exploração.</li>
+    <li><strong>Zero achado inventado.</strong> Sem problema relevante, o relatório diz isso e mostra a cobertura.</li>
+  </ul>
+
+  <h2>Metodologia e referências</h2>
+  <p>
+    As categorias são mapeadas para a stack detectada e se apoiam em referências públicas — não
+    em critério próprio inventado.
+  </p>
+  <table class="tabela">
+    <thead><tr><th>Referência</th><th>Uso na auditoria</th></tr></thead>
+    <tbody>
+      {referencias.map(([nome, uso, link]) => (
+        <tr>
+          <td><a href={link} rel="noopener">{nome}</a></td>
+          <td>{uso}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
   <h2>Como funciona</h2>
   <ul class="lista-ferramentas">
     {passos.map(([titulo, texto], indice) => (
@@ -117,19 +216,35 @@ const faq = [
     ))}
   </ul>
 
-  <h2>Princípios da auditoria</h2>
+  {
+    autor.nome && (
+      <section>
+        <h2>Quem audita</h2>
+        <p><strong>{autor.nome}</strong>{autor.cargo ? ` — ${autor.cargo}` : ''}</p>
+        {autor.bio && <p>{autor.bio}</p>}
+        <p>
+          {autor.github && <a href={autor.github} rel="noopener">GitHub</a>}
+          {autor.github && autor.linkedin && ' · '}
+          {autor.linkedin && <a href={autor.linkedin} rel="noopener">LinkedIn</a>}
+        </p>
+      </section>
+    )
+  }
+
+  <h2>Limites e ética</h2>
   <ul>
-    <li><strong>Nada de especulação.</strong> Só entra achado verificado no código, com arquivo e linha.</li>
-    <li><strong>Cobertura declarada.</strong> A seção de pontos fortes mostra o que foi revisado e está correto.</li>
-    <li><strong>Categoria não aplicável é dita.</strong> Sem forçar achado para preencher relatório.</li>
-    <li><strong>Correção acionável.</strong> Cada issue tem critério de aceite que o time consegue marcar.</li>
+    <li><strong>Autorização escrita</strong> antes de qualquer análise.</li>
+    <li><strong>Nenhum teste ativo em produção</strong> — análise de código e configuração.</li>
+    <li><strong>Achado crítico comunicado em 24h</strong>, antes do relatório final.</li>
+    <li><strong>Dado do cliente não sai do ambiente acordado</strong> e não é usado como portfólio sem autorização.</li>
+    <li><strong>Sem promessa de nota</strong>: entregamos evidência, não selo de segurança.</li>
   </ul>
 
   <h2>Escopo e investimento</h2>
   <p>
     Auditoria de segurança de IA e aplicações: <strong>R$ 18.000 a R$ 45.000</strong>, com
-    escopo fechado e relatório em PDF mais issues. Para quem já tem sistema em produção e
-    precisa de evolução contínua, existe o modelo de retainer mensal.
+    escopo fechado e relatório em PDF mais issues. Para evolução contínua, existe o modelo de
+    retainer mensal.
   </p>
   <p class="aviso-legal">
     O relatório de exemplo usa dados fictícios para demonstrar o formato — não é auditoria de
@@ -147,4 +262,6 @@ const faq = [
   </section>
 
   <Contato />
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </Base>
