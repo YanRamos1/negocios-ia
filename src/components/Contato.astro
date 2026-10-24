@@ -1,0 +1,24 @@
+---
+import { contato } from '../config/contato';
+
+const whatsapp = contato.whatsapp
+  ? `https://wa.me/${contato.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent('Olá, quero falar sobre a auditoria de segurança.')}`
+  : null;
+const email = contato.email ? `mailto:${contato.email}?subject=${encodeURIComponent('Auditoria de segurança')}` : null;
+---
+
+{
+  (whatsapp || email) && (
+    <p>
+      <a class="botao" href={(whatsapp ?? email) as string} rel="noopener">
+        Falar sobre o seu projeto
+      </a>
+      {email && whatsapp && (
+        <>
+          {' '}
+          <a class="botao botao-secundario" href={email}>Enviar e-mail</a>
+        </>
+      )}
+    </p>
+  )
+}

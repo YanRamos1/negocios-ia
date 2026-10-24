@@ -26,6 +26,7 @@ ITENS: dict[str, tuple[str, str]] = {
     "planilha-financeiro": ("Planilha Financeiro PF x PJ", "Controle e comparativo de 2026"),
     "planilha-confeitaria": ("Planilha de Confeitaria", "Custo por receita e preço com margem"),
     "kit-financeiro": ("Kit Financeiro imprimível", "Seis folhas A4, download grátis"),
+    "servicos": ("Auditoria de segurança", "Cinco categorias, evidência linha a linha"),
     "sobre": ("Sobre as calculadoras", "Parâmetros versionados e testados"),
     "privacidade": ("Privacidade", "Cálculo no navegador, sem cadastro"),
 }

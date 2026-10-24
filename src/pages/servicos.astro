@@ -1,0 +1,150 @@
+---
+import Base from '../layouts/Base.astro';
+import Contato from '../components/Contato.astro';
+import { url } from '../lib/urls';
+
+const categorias = [
+  {
+    titulo: 'Isolamento de dados',
+    texto:
+      'Consultas de listagem, busca, agregação e exportação que não filtram pelo usuário ou tenant. Em Supabase, RLS ausente; em API própria, filtro que falta no handler.',
+  },
+  {
+    titulo: 'Permissão no servidor',
+    texto:
+      'Cruzamos cada gate de papel do frontend (isAdmin, canEdit, role) com o endpoint correspondente e verificamos se o backend valida o privilégio.',
+  },
+  {
+    titulo: 'IDOR',
+    texto:
+      'Percorremos todos os handlers que recebem ID por path, query ou body — não amostras — para verificar posse do objeto.',
+  },
+  {
+    titulo: 'Segredos expostos',
+    texto:
+      'Código, compose, charts, CI, scripts, documentação, histórico git e bundle do frontend. Inclui defaults públicos como ${VAR:-valor} sem validação de startup.',
+  },
+  {
+    titulo: 'XSS e injeção de HTML',
+    texto:
+      'innerHTML e equivalentes, markdown sem sanitização, URL de usuário em href/src, eval, e templates de e-mail sem escape no backend.',
+  },
+];
+
+const entregaveis = [
+  ['Relatório em PDF', 'Capa, resumo executivo com gráficos, tabela de achados e recomendações priorizadas.'],
+  ['Achado com linha', 'Arquivo:linha, trecho de código, por que é explorável, impacto e correção.'],
+  ['Pontos fortes', 'O que foi verificado e está correto — a prova de cobertura da auditoria.'],
+  ['Issues prontas', 'Texto completo de cada issue em Markdown, com critérios de aceite verificáveis.'],
+];
+
+const passos = [
+  ['Escopo', 'Definimos repositório, branch, ambientes e autorização por escrito.'],
+  ['Auditoria', 'Leitura do código real, categoria por categoria, adaptada à stack detectada.'],
+  ['Entrega', 'PDF, issues e sessão de leitura com o time técnico.'],
+];
+
+const faq = [
+  {
+    pergunta: 'Quanto tempo leva?',
+    resposta:
+      'Depende do tamanho do repositório e do escopo. O relatório é entregue com a lista de arquivos revisados, então você sabe exatamente o que foi coberto.',
+  },
+  {
+    pergunta: 'Vocês testam em produção?',
+    resposta:
+      'Não. A auditoria é de código e configuração. Teste ativo só com autorização escrita e escopo delimitado, em ambiente acordado.',
+  },
+  {
+    pergunta: 'E se a categoria não se aplicar?',
+    resposta:
+      'Dizemos isso explicitamente no relatório. Projeto sem frontend não recebe achado de XSS forçado, por exemplo.',
+  },
+  {
+    pergunta: 'O relatório serve para auditoria ou cliente corporativo?',
+    resposta:
+      'Foi desenhado para isso: evidência reproduzível, severidade justificada e correção sugerida. Não substitui certificação formal.',
+  },
+];
+---
+
+<Base
+  title="Auditoria de segurança de aplicações e IA"
+  description="Auditoria de código em cinco categorias: isolamento de dados, permissão no servidor, IDOR, segredos expostos e XSS. Relatório em PDF com evidência linha a linha e issues prontas."
+  ogImage="og/servicos.png"
+>
+  <h1>Auditoria de segurança de aplicações e IA</h1>
+  <p class="lead">
+    Cinco classes de falha que derrubam produto: dados sem isolamento, permissão só no
+    navegador, IDOR, segredo exposto e HTML sem tratamento. Auditoria no código real, com
+    evidência linha a linha e issues prontas para o time corrigir.
+  </p>
+
+  <p>
+    <a class="botao" href={url('auditoria/relatorio-exemplo.pdf')} download>
+      Ver relatório de exemplo (PDF)
+    </a>
+  </p>
+  <Contato />
+
+  <h2>O que é verificado</h2>
+  <ul class="lista-ferramentas">
+    {categorias.map((categoria) => (
+      <li>
+        <strong>{categoria.titulo}</strong>
+        <p>{categoria.texto}</p>
+      </li>
+    ))}
+  </ul>
+
+  <h2>O que você recebe</h2>
+  <ul class="lista-ferramentas">
+    {entregaveis.map(([titulo, texto]) => (
+      <li>
+        <strong>{titulo}</strong>
+        <p>{texto}</p>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Como funciona</h2>
+  <ul class="lista-ferramentas">
+    {passos.map(([titulo, texto], indice) => (
+      <li>
+        <strong>{indice + 1}. {titulo}</strong>
+        <p>{texto}</p>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Princípios da auditoria</h2>
+  <ul>
+    <li><strong>Nada de especulação.</strong> Só entra achado verificado no código, com arquivo e linha.</li>
+    <li><strong>Cobertura declarada.</strong> A seção de pontos fortes mostra o que foi revisado e está correto.</li>
+    <li><strong>Categoria não aplicável é dita.</strong> Sem forçar achado para preencher relatório.</li>
+    <li><strong>Correção acionável.</strong> Cada issue tem critério de aceite que o time consegue marcar.</li>
+  </ul>
+
+  <h2>Escopo e investimento</h2>
+  <p>
+    Auditoria de segurança de IA e aplicações: <strong>R$ 18.000 a R$ 45.000</strong>, com
+    escopo fechado e relatório em PDF mais issues. Para quem já tem sistema em produção e
+    precisa de evolução contínua, existe o modelo de retainer mensal.
+  </p>
+  <p class="aviso-legal">
+    O relatório de exemplo usa dados fictícios para demonstrar o formato — não é auditoria de
+    cliente real.
+  </p>
+
+  <section class="faq">
+    <h2>Perguntas frequentes</h2>
+    {faq.map((item) => (
+      <details>
+        <summary>{item.pergunta}</summary>
+        <p>{item.resposta}</p>
+      </details>
+    ))}
+  </section>
+
+  <Contato />
+</Base>

@@ -16,6 +16,8 @@ produtos/planilhas/*/saida/
 public/planilhas/**/*.xlsx
 public/kit/*.pdf
 public/og/*.png
+public/auditoria/*.pdf
+.venv-audit/
 tmp/
 test-results/
 playwright-report/

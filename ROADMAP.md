@@ -26,7 +26,8 @@ centro da receita. A receita principal migra para projeto e prestação de servi
 - Comercial: `servicos/comercial/PLAYBOOK.md`
 
 Próximo entregável técnico da trilha: **CLI de segurança para aplicações com LLM**, usada
-como isca gratuita e prova de competência antes do diagnóstico pago.
+como isca gratuita e prova de competência antes do diagnóstico pago. A landing com relatório
+de exemplo já está publicada em `/servicos/`.
 
 
 ## Veredito

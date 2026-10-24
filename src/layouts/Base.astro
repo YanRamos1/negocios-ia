@@ -22,6 +22,7 @@ const comOg = new Set([
   'planilha-financeiro',
   'planilha-confeitaria',
   'kit-financeiro',
+  'servicos',
   'sobre',
   'privacidade',
 ]);
@@ -58,6 +59,7 @@ import '../styles/global.css';
         <a href={url('clt-pj/')} aria-current={Astro.url.pathname.includes('clt-pj') ? 'page' : undefined}>CLT x PJ</a>
         <a href={url('custo-importacao/')} aria-current={Astro.url.pathname.includes('custo-importacao') ? 'page' : undefined}>Importação</a>
         <a href={url('rescisao/')} aria-current={Astro.url.pathname.includes('rescisao') ? 'page' : undefined}>Rescisão</a>
+        <a href={url('servicos/')} aria-current={Astro.url.pathname.includes('servicos') ? 'page' : undefined}>Serviços</a>
         <a href={url('sobre/')} aria-current={Astro.url.pathname.includes('sobre') ? 'page' : undefined}>Sobre</a>
       </nav>
     </header>
@@ -73,6 +75,7 @@ import '../styles/global.css';
       </p>
       <p>
         <a href={url('privacidade/')}>Privacidade</a> ·
+        <a href={url('servicos/')}>Serviços</a> ·
         <a href={url('sobre/')}>Sobre</a>
       </p>
     </footer>

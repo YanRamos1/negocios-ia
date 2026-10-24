@@ -34,7 +34,7 @@ Legenda de status: `planejado` → `spec` → `em andamento` → `publicado` →
 |---|---|---|---|---|
 | Diagnóstico de IA | `servicos/ofertas/diagnostico-ia.md` | spec | R$ 6–12 mil | isca técnica que gera lead |
 | Agente em produção | `servicos/ofertas/agente-em-producao.md` | spec | R$ 35–90 mil | estudo de caso + eval kit |
-| Segurança de IA e apps | `servicos/ofertas/seguranca-de-ia.md` | spec | R$ 18–45 mil | CLI de varredura como isca |
+| Segurança de IA e apps | `servicos/ofertas/seguranca-de-ia.md` | landing no ar | R$ 18–45 mil | CLI de varredura como isca |
 
 Posicionamento e funil em [`servicos/POSICIONAMENTO.md`](./servicos/POSICIONAMENTO.md).
 Qualificação, proposta e follow-up em [`servicos/comercial/PLAYBOOK.md`](./servicos/comercial/PLAYBOOK.md).
@@ -64,7 +64,8 @@ Qualificação, proposta e follow-up em [`servicos/comercial/PLAYBOOK.md`](./ser
 | 2026-10-23 | rescisao | 4 páginas por tipo + calculadora pré-preenchida | a5cf605 |
 | 2026-10-23 | confeitaria | gerador com 10 testes de fórmula, landing e download gratuito | b42307a |
 | 2026-10-23 | precificacao-mei | 4 páginas por nicho + calculadora pré-preenchida | 026941e |
-| 2026-10-23 | servicos | vertical de serviços: posicionamento, 3 ofertas e playbook | este commit |
+| 2026-10-23 | servicos | vertical de serviços: posicionamento, 3 ofertas e playbook | 73b6904 |
+| 2026-10-23 | servicos | landing de auditoria + gerador de PDF com exemplo | este commit |
 
 ## Decisões
 

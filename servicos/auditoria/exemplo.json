@@ -1,0 +1,105 @@
+{
+  "projeto": "App Exemplo (demonstração)",
+  "data": "2026-10-23",
+  "escopo": "API Node.js + frontend SPA + docker-compose, branch main, commit 0a1b2c3",
+  "stack": "Node.js + Express, PostgreSQL com query builder Knex, JWT em cookie, React (SPA), deploy em Docker Compose.",
+  "notaMetodologica": "Cada categoria foi mapeada para a stack: isolamento por middleware de tenant e filtro manual; permissão comparada entre gates de papel no React e middlewares do Express; IDOR revisado handler por handler; segredos verificados em código, compose, CI e bundle; XSS revisado em innerHTML e templates de e-mail.",
+  "aviso": "Dados fictícios, criados para demonstrar o formato do relatório. Não corresponde a auditoria de cliente real.",
+  "achados": [
+    {
+      "id": "A1",
+      "titulo": "Relatório agregado ignora o tenant do chamador",
+      "categoria": "Banco sem tranca",
+      "severidade": "crítica",
+      "arquivo": "src/routes/reports.js:37",
+      "trecho": "const rows = await db('orders').sum('total as receita').groupBy('status');",
+      "porque": "A rota /api/reports/resumo exige autenticação, mas a query não filtra por tenant_id. Qualquer usuário autenticado recebe a receita consolidada de todos os clientes.",
+      "impacto": "Vazamento de receita e volume de pedidos entre inquilinos; quebra de confidencialidade contratual.",
+      "correcao": "Aplicar o filtro de tenant na própria query e centralizar em um helper obrigatório (scopeTenant) usado por todas as consultas de leitura.",
+      "criterios": [
+        "Toda query de listagem/agregação passa por scopeTenant(req)",
+        "Teste de integração com dois tenants garante que A não lê B",
+        "Lint falha se db() for usado fora do helper"
+      ],
+      "acionavel": true
+    },
+    {
+      "id": "A2",
+      "titulo": "Endpoint de gestão de usuários sem checagem de papel",
+      "categoria": "Permissão no navegador",
+      "severidade": "alta",
+      "arquivo": "src/routes/users.js:58",
+      "trecho": "router.patch('/users/:id/role', auth, async (req, res) => { await db('users').where({ id: req.params.id }).update({ role: req.body.role }); });",
+      "porque": "O frontend só mostra o seletor de papel quando isAdmin é verdadeiro, mas a rota aceita qualquer usuário autenticado. A checagem existe apenas no React.",
+      "impacto": "Escalada de privilégio: qualquer conta se promove a administrador.",
+      "correcao": "Adicionar middleware requireRole('admin') na rota e testar o caminho negativo.",
+      "criterios": [
+        "Rota retorna 403 para papel diferente de admin",
+        "Teste cobre usuário comum tentando se promover",
+        "Matriz de rotas sensíveis documentada"
+      ],
+      "acionavel": true
+    },
+    {
+      "id": "A3",
+      "titulo": "Fatura acessível por ID de outro tenant (IDOR)",
+      "categoria": "IDOR",
+      "severidade": "crítica",
+      "arquivo": "src/routes/invoices.js:22",
+      "trecho": "const invoice = await db('invoices').where({ id: req.params.id }).first();",
+      "porque": "A busca usa apenas o ID do path. Não há verificação de posse nem filtro por tenant, então trocar o número sequencial expõe faturas alheias.",
+      "impacto": "Leitura de dados financeiros e pessoais de outros clientes; risco de LGPD.",
+      "correcao": "Filtrar por tenant e dono na consulta; retornar 404 em vez de 403 para não confirmar existência.",
+      "criterios": [
+        "Consulta inclui tenant_id do chamador",
+        "IDs de outro tenant retornam 404",
+        "Teste de IDOR cobre GET, PATCH e DELETE"
+      ],
+      "acionavel": true
+    },
+    {
+      "id": "A4",
+      "titulo": "Segredo JWT com valor padrão público",
+      "categoria": "Chaves expostas",
+      "severidade": "alta",
+      "arquivo": "docker-compose.yml:19",
+      "trecho": "JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me}",
+      "porque": "Sem a variável definida, a aplicação sobe com segredo conhecido. Não existe validação de startup que rejeite o default, então tokens podem ser forjados em produção.",
+      "impacto": "Falsificação de token e acesso como qualquer usuário, inclusive admin.",
+      "correcao": "Remover o default, validar presença e comprimento no boot e falhar rápido.",
+      "criterios": [
+        "Sem JWT_SECRET a aplicação não inicia",
+        "Validação exige ao menos 32 caracteres",
+        "Compose e CI não contêm segredo real"
+      ],
+      "acionavel": true
+    },
+    {
+      "id": "A5",
+      "titulo": "Comentário renderizado com innerHTML",
+      "categoria": "Inputs sem tratamento",
+      "severidade": "média",
+      "arquivo": "src/components/Comment.jsx:14",
+      "trecho": "return <div dangerouslySetInnerHTML={{ __html: comment.body }} />;",
+      "porque": "O corpo do comentário vem do usuário e é inserido como HTML. Não há sanitização no cliente nem no servidor.",
+      "impacto": "XSS armazenado: execução de script no navegador de outros usuários, com acesso ao cookie de sessão.",
+      "correcao": "Renderizar como texto ou aplicar DOMPurify antes da inserção; no servidor, sanitizar na gravação.",
+      "criterios": [
+        "Nenhum dangerouslySetInnerHTML com dado de usuário",
+        "Teste com payload de script não executa",
+        "CSP sem unsafe-inline"
+      ],
+      "acionavel": true
+    }
+  ],
+  "pontosFortes": [
+    "src/middleware/tenant.js:12 aplica o tenant a todas as rotas /api, exceto as públicas declaradas.",
+    "src/db/knex.js:8 usa query builder com bindings, sem concatenação de SQL.",
+    "src/routes/auth.js:41 compara senha com bcrypt e não registra credencial em log.",
+    "src/server.js:23 define helmet com CSP e HSTS.",
+    "O bundle do frontend não contém chaves de serviço."
+  ],
+  "naoAplicavel": [
+    "Categoria 1 em Supabase: o projeto não usa Supabase; o isolamento é por middleware e filtro manual."
+  ]
+}
