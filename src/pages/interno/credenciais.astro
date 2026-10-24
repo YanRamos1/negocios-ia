@@ -1,0 +1,261 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const camposIdentidade = [
+  {
+    id: 'nome',
+    rotulo: 'Nome como você assina propostas',
+    exemplo: 'Maria Silva',
+    ajuda:
+      'Use o mesmo nome que aparece no contrato e no LinkedIn. Se usa nome social ou profissional, escolha um e mantenha igual em todos os lugares.',
+    obrigatorio: true,
+  },
+  {
+    id: 'cargo',
+    rotulo: 'Cargo ou especialidade',
+    exemplo: 'Engenheira de software e segurança',
+    ajuda:
+      'Uma linha. Descreva o que você faz, não o que gostaria de ser. Evite "especialista" sem área.',
+    obrigatorio: true,
+  },
+  {
+    id: 'bio',
+    rotulo: 'Bio curta (até 280 caracteres)',
+    exemplo:
+      'Audito aplicações com IA e sistemas multi-inquilino, com foco em isolamento de dados e autorização.',
+    ajuda:
+      'Responda três perguntas: o que você faz, em que tipo de sistema, e qual resultado costuma entregar. Não cite cliente sem autorização.',
+    obrigatorio: true,
+  },
+  {
+    id: 'github',
+    rotulo: 'URL do GitHub',
+    exemplo: 'https://github.com/seu-usuario',
+    ajuda:
+      'Abra github.com, entre no seu perfil e copie a URL da barra de endereço. Perfil sem repositório público ainda serve: mostre o que puder.',
+    obrigatorio: false,
+  },
+  {
+    id: 'linkedin',
+    rotulo: 'URL do LinkedIn',
+    exemplo: 'https://www.linkedin.com/in/seu-nome',
+    ajuda:
+      'Abra seu perfil, clique em "Mais" e depois em "Copiar link do perfil". Remova os parâmetros depois do "?".',
+    obrigatorio: false,
+  },
+];
+
+const camposContato = [
+  {
+    id: 'email',
+    rotulo: 'E-mail profissional',
+    exemplo: 'contato@seudominio.com.br',
+    ajuda:
+      'Sem domínio próprio: crie um alias no Gmail (Configurações → Contas → "Enviar como"). Com domínio: registre no Registro.br (~R$ 40/ano) e use Cloudflare Email Routing (grátis) para encaminhar ao seu Gmail.',
+    obrigatorio: true,
+  },
+  {
+    id: 'whatsapp',
+    rotulo: 'WhatsApp (DDI + DDD + número)',
+    exemplo: '5511999999999',
+    ajuda:
+      'Use o número do WhatsApp Business. No app: Configurações → toque no seu nome → o telefone aparece no topo. Digite só dígitos, começando por 55.',
+    obrigatorio: true,
+  },
+];
+
+const camposProva = [
+  {
+    id: 'cliente',
+    rotulo: 'Cliente ou setor do case',
+    exemplo: 'Fintech de 80 pessoas (anonimizada)',
+    ajuda:
+      'Peça autorização por escrito por e-mail. Sem autorização, use setor e porte, nunca o nome. Não invente resultado.',
+    obrigatorio: false,
+  },
+  {
+    id: 'setor',
+    rotulo: 'Setor e contexto',
+    exemplo: 'Fintech, API multi-inquilino, 12 endpoints',
+    ajuda:
+      'Descreva o ambiente auditado em uma linha: setor, tipo de sistema e tamanho aproximado.',
+    obrigatorio: false,
+  },
+  {
+    id: 'resultado',
+    rotulo: 'Resultado mensurável',
+    exemplo: '3 falhas críticas corrigidas em 9 dias; isolamento validado por teste',
+    ajuda:
+      'Use número que você consegue provar: quantidade de achados, prazo de correção, cobertura. Evite "melhorou muito".',
+    obrigatorio: false,
+  },
+];
+---
+
+<Base
+  title="Formulário de credibilidade"
+  description="Preencha os dados de identidade, contato e prova social e gere os arquivos de configuração da landing."
+  noindex
+>
+  <h1>Formulário de credibilidade</h1>
+  <p class="lead">
+    Preencha os campos e copie o resultado para os arquivos indicados. Cada campo explica
+    exatamente onde obter a informação.
+  </p>
+
+  <form id="form-cred" class="card" novalidate>
+    <h2 style="margin-top:0">Identidade</h2>
+    {
+      camposIdentidade.map((campo) => (
+        <div class="campo" style="margin-bottom:16px">
+          <label for={campo.id}>
+            {campo.rotulo}{campo.obrigatorio ? ' *' : ' (opcional)'}
+          </label>
+          <input
+            id={campo.id}
+            type="text"
+            placeholder={campo.exemplo}
+            autocomplete="off"
+          />
+          <small>{campo.ajuda}</small>
+        </div>
+      ))
+    }
+
+    <h2>Contato</h2>
+    {
+      camposContato.map((campo) => (
+        <div class="campo" style="margin-bottom:16px">
+          <label for={campo.id}>{campo.rotulo} *</label>
+          <input id={campo.id} type="text" placeholder={campo.exemplo} autocomplete="off" />
+          <small>{campo.ajuda}</small>
+        </div>
+      ))
+    }
+
+    <h2>Prova social</h2>
+    {
+      camposProva.map((campo) => (
+        <div class="campo" style="margin-bottom:16px">
+          <label for={campo.id}>{campo.rotulo} (opcional)</label>
+          <input id={campo.id} type="text" placeholder={campo.exemplo} autocomplete="off" />
+          <small>{campo.ajuda}</small>
+        </div>
+      ))
+    }
+
+    <div class="campo">
+      <label for="autorizacao">Autorização para citar o cliente</label>
+      <select id="autorizacao">
+        <option value="nao">Não tenho case autorizado</option>
+        <option value="anonimo">Posso citar anonimizado (setor e porte)</option>
+        <option value="sim">Tenho autorização por escrito</option>
+      </select>
+      <small>
+        "Anonimizado" usa setor e porte, sem nome. Só marque "autorização por escrito" se
+        tiver o e-mail ou contrato que permita citar.
+      </small>
+    </div>
+  </form>
+
+  <aside class="card">
+    <p>
+      <strong>Progresso:</strong> <span id="progresso">0 de 5 campos obrigatórios</span>
+    </p>
+    <p id="pendencias" class="aviso-legal"></p>
+
+    <h2>1. src/config/autor.ts</h2>
+    <pre id="saida-autor" class="codigo-amostra"><code></code></pre>
+    <p><button class="botao botao-secundario" type="button" id="copiar-autor">Copiar autor.ts</button></p>
+
+    <h2>2. src/config/contato.ts</h2>
+    <pre id="saida-contato" class="codigo-amostra"><code></code></pre>
+    <p><button class="botao botao-secundario" type="button" id="copiar-contato">Copiar contato.ts</button></p>
+
+    <h2>3. src/config/prova.ts</h2>
+    <pre id="saida-prova" class="codigo-amostra"><code></code></pre>
+    <p><button class="botao botao-secundario" type="button" id="copiar-prova">Copiar prova.ts</button></p>
+
+    <h2>4. Revisar antes de publicar</h2>
+    <ul>
+      <li>Confira se o e-mail recebe mensagem (envie um teste para si).</li>
+      <li>Abra o link do WhatsApp e veja se a mensagem pronta aparece.</li>
+      <li>Leia a bio em voz alta: ela diz o que você faz em uma frase?</li>
+      <li>Se citar cliente, tenha a autorização salva.</li>
+      <li>Rode <code>npm run typecheck &amp;&amp; npm test</code> e publique.</li>
+    </ul>
+  </aside>
+
+  <script>
+    const ids = ['nome', 'cargo', 'bio', 'github', 'linkedin', 'email', 'whatsapp', 'cliente', 'setor', 'resultado'];
+    const obrigatorios = ['nome', 'cargo', 'bio', 'email', 'whatsapp'];
+
+    const valor = (id: string): string => {
+      const campo = document.getElementById(id) as HTMLInputElement | null;
+      return campo ? campo.value.trim() : '';
+    };
+
+    const texto = (valorCampo: string): string =>
+      valorCampo ? JSON.stringify(valorCampo) : 'null';
+
+    const atualizar = (): void => {
+      const autor = `export const autor = {\n  nome: ${texto(valor('nome'))},\n  cargo: ${texto(valor('cargo'))},\n  bio: ${texto(valor('bio'))},\n  github: ${texto(valor('github'))},\n  linkedin: ${texto(valor('linkedin'))},\n};`;
+
+      const semArroba = valor('email').replace(/[<>&]/g, '');
+      const contato = `export const contato = {\n  email: ${texto(semArroba)},\n  whatsapp: ${texto(valor('whatsapp').replace(/\D/g, ''))},\n};`;
+
+      const autorizacao = (document.getElementById('autorizacao') as HTMLSelectElement).value;
+      const prova = `export const prova = {\n  cliente: ${texto(valor('cliente'))},\n  setor: ${texto(valor('setor'))},\n  resultado: ${texto(valor('resultado'))},\n  autorizacao: ${JSON.stringify(autorizacao)} as 'sim' | 'anonimo' | 'nao',\n};`;
+
+      (document.querySelector('#saida-autor code') as HTMLElement).textContent = autor;
+      (document.querySelector('#saida-contato code') as HTMLElement).textContent = contato;
+      (document.querySelector('#saida-prova code') as HTMLElement).textContent = prova;
+
+      const preenchidos = obrigatorios.filter((id) => valor(id)).length;
+      const faltando = obrigatorios.filter((id) => !valor(id));
+      document.getElementById('progresso')!.textContent =
+        `${preenchidos} de ${obrigatorios.length} campos obrigatórios`;
+
+      const pendencias = document.getElementById('pendencias')!;
+      const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor('email'));
+      const whatsValido = /^\d{12,13}$/.test(valor('whatsapp').replace(/\D/g, ''));
+
+      const avisos: string[] = [];
+      if (faltando.length) avisos.push(`Faltam: ${faltando.join(', ')}.`);
+      if (valor('email') && !emailValido) avisos.push('E-mail com formato inválido.');
+      if (valor('whatsapp') && !whatsValido) avisos.push('WhatsApp deve ter 55 + DDD + número.');
+      if (autorizacao === 'sim' && !valor('cliente')) avisos.push('Informe o cliente autorizado.');
+      if (autorizacao !== 'nao' && !valor('resultado')) avisos.push('Informe o resultado do case.');
+
+      pendencias.textContent = avisos.join(' ');
+      pendencias.style.color = avisos.length ? '#b91c1c' : '#059669';
+    };
+
+    const copiar = async (seletor: string, botao: HTMLButtonElement): Promise<void> => {
+      const conteudo = (document.querySelector(`${seletor} code`) as HTMLElement).textContent ?? '';
+      try {
+        await navigator.clipboard.writeText(conteudo);
+        const original = botao.textContent;
+        botao.textContent = 'Copiado';
+        setTimeout(() => { botao.textContent = original; }, 1500);
+      } catch {
+        botao.textContent = 'Selecione e copie manualmente';
+      }
+    };
+
+    document.getElementById('form-cred')!.addEventListener('input', atualizar);
+    document.getElementById('autorizacao')!.addEventListener('change', atualizar);
+
+    document.getElementById('copiar-autor')!.addEventListener('click', (evento) => {
+      void copiar('#saida-autor', evento.currentTarget as HTMLButtonElement);
+    });
+    document.getElementById('copiar-contato')!.addEventListener('click', (evento) => {
+      void copiar('#saida-contato', evento.currentTarget as HTMLButtonElement);
+    });
+    document.getElementById('copiar-prova')!.addEventListener('click', (evento) => {
+      void copiar('#saida-prova', evento.currentTarget as HTMLButtonElement);
+    });
+
+    atualizar();
+  </script>
+</Base>

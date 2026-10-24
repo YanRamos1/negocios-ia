@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Contato from '../components/Contato.astro';
 import { url } from '../lib/urls';
 import { autor } from '../config/autor';
+import { prova } from '../config/prova';
 
 const categorias = [
   {
@@ -226,6 +227,24 @@ const jsonLd = {
           {autor.github && <a href={autor.github} rel="noopener">GitHub</a>}
           {autor.github && autor.linkedin && ' · '}
           {autor.linkedin && <a href={autor.linkedin} rel="noopener">LinkedIn</a>}
+        </p>
+      </section>
+    )
+  }
+
+  {
+    prova.autorizacao !== 'nao' && prova.cliente && prova.resultado && (
+      <section>
+        <h2>Resultado em cliente</h2>
+        <p>
+          <strong>{prova.cliente}</strong>
+          {prova.setor ? ` — ${prova.setor}` : ''}
+        </p>
+        <p>{prova.resultado}</p>
+        <p class="aviso-legal">
+          {prova.autorizacao === 'anonimo'
+            ? 'Cliente citado de forma anonimizada, com autorização para descrever o trabalho.'
+            : 'Case citado com autorização do cliente.'}
         </p>
       </section>
     )
