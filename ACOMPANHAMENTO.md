@@ -67,7 +67,8 @@ Qualificação, proposta e follow-up em [`servicos/comercial/PLAYBOOK.md`](./ser
 | 2026-10-23 | servicos | vertical de serviços: posicionamento, 3 ofertas e playbook | 73b6904 |
 | 2026-10-23 | servicos | landing de auditoria + gerador de PDF com exemplo | 6e04be4 |
 | 2026-10-23 | servicos | credibilidade: selos, amostra, referências públicas e limites | 8105049 |
-| 2026-10-24 | servicos | formulário interno que gera autor/contato/prova + doc de coleta | este commit |
+| 2026-10-24 | servicos | formulário interno que gera autor/contato/prova + doc de coleta | fe3a955 |
+| 2026-10-24 | servicos | identidade e canais reais preenchidos na landing | este commit |
 
 ## Decisões
 

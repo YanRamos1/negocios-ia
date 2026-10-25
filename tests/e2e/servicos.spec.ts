@@ -25,6 +25,19 @@ test('a landing mostra processo, amostra e referências públicas', async ({ pag
   expect(jsonLd).toContain('ProfessionalService');
 });
 
+test('a landing mostra identidade e canais de contato', async ({ page }) => {
+  await page.goto('/servicos/');
+
+  await expect(page.locator('body')).toContainText('Yan Ramos');
+  await expect(page.locator('body')).toContainText('isolamento e autorização');
+
+  const email = page.locator('a[href^="mailto:"]').first();
+  await expect(email).toHaveAttribute('href', /yanramos111@gmail\.com/);
+
+  const whatsapp = page.locator('a[href^="https://wa.me/"]').first();
+  await expect(whatsapp).toHaveAttribute('href', /5524999822342/);
+});
+
 test('o relatório de exemplo pode ser baixado', async ({ page }) => {
   await page.goto('/servicos/');
 

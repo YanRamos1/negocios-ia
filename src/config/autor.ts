@@ -3,9 +3,9 @@
  * aparecer na landing — é a alavanca de credibilidade mais forte.
  */
 export const autor = {
-  nome: null as string | null,
-  cargo: null as string | null,
-  bio: null as string | null,
-  github: null as string | null,
-  linkedin: null as string | null,
+  nome: 'Yan Ramos',
+  cargo: 'Engenharia de software e segurança',
+  bio: 'Audito aplicações com IA e sistemas, com foco em isolamento e autorização.',
+  github: 'https://github.com/YanRamos1',
+  linkedin: 'https://www.linkedin.com/in/yan-ramos-3a90a3110/',
 };

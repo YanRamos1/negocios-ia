@@ -1,8 +1,8 @@
 /**
- * Preencha com os canais reais. Enquanto estiverem nulos, o botão de contato
- * não aparece — a landing vende pelo relatório de exemplo.
+ * Canais de contato exibidos na landing de serviços.
+ * URL interna (começando com /) recebe o prefixo do site automaticamente.
  */
 export const contato = {
-  email: null as string | null,
-  whatsapp: null as string | null,
+  email: 'yanramos111@gmail.com' as string | null,
+  whatsapp: '5524999822342' as string | null,
 };
